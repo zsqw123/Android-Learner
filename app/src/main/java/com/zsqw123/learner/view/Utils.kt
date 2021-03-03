@@ -28,6 +28,7 @@ fun getBitmap(resources: Resources, size: Int, @DrawableRes id: Int): Bitmap {
 
 fun getSquareBitmap(resources: Resources, size: Int) = getBitmap(resources, size, R.drawable.icon)
 fun getRectBitmap(resources: Resources, size: Int) = getBitmap(resources, size, R.drawable.awa)
+fun getXsBitmap(resources: Resources, size: Int) = getBitmap(resources, size, R.drawable.xparent)
 
 inline infix fun <reified T> T.apply(action: T.() -> Unit): T {
     action()
