@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <com.zsqw123.learner.view.XferView
+    <com.zsqw123.learner.view.CameraView
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
