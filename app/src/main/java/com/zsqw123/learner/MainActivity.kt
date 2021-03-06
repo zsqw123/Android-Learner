@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.zsqw123.learner.databinding.ActivityMainBinding
 import com.zsqw123.learner.view.anim.AnimActivity
+import com.zsqw123.learner.view.anim.ViewGroupAct
 import kotlin.reflect.KClass
 
 class MainActivity : AppCompatActivity() {
@@ -14,6 +15,7 @@ class MainActivity : AppCompatActivity() {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.btAnim.setOnClickListener { start(AnimActivity::class) }
+        binding.btViewGroup.setOnClickListener { start(ViewGroupAct::class) }
     }
 }
 
