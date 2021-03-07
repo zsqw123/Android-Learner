@@ -1,9 +1,10 @@
-package com.zsqw123.learner.view
+package com.zsqw123.learner.view.example
 
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
+import com.zsqw123.learner.view.apply
 
 // az 好丑 需要设计师设计贝塞尔曲线 qwq
 class TujianView(context: Context, attrs: AttributeSet? = null) : View(context, attrs) {

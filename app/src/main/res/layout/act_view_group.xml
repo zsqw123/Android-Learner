@@ -5,64 +5,69 @@
     android:background="#C77D97"
     android:orientation="vertical">
 
-    <com.zsqw123.learner.view.ChangeableGroup
+    <TextView
+        android:id="@+id/tv"
+        android:layout_width="100dp"
+        android:layout_height="100dp" />
+
+    <com.zsqw123.learner.view.group.ChangeableGroup
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.zsqw123.learner.view.IconImageView
+        <com.zsqw123.learner.view.example.IconImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <com.zsqw123.learner.view.IconImageView
+        <com.zsqw123.learner.view.example.IconImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <com.zsqw123.learner.view.IconImageView
+        <com.zsqw123.learner.view.example.IconImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <com.zsqw123.learner.view.IconImageView
+        <com.zsqw123.learner.view.example.IconImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <com.zsqw123.learner.view.IconImageView
+        <com.zsqw123.learner.view.example.IconImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <com.zsqw123.learner.view.IconImageView
+        <com.zsqw123.learner.view.example.IconImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <com.zsqw123.learner.view.IconImageView
+        <com.zsqw123.learner.view.example.IconImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <com.zsqw123.learner.view.IconImageView
+        <com.zsqw123.learner.view.example.IconImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <com.zsqw123.learner.view.IconImageView
+        <com.zsqw123.learner.view.example.IconImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <com.zsqw123.learner.view.IconImageView
+        <com.zsqw123.learner.view.example.IconImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <com.zsqw123.learner.view.IconImageView
+        <com.zsqw123.learner.view.example.IconImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <com.zsqw123.learner.view.IconImageView
+        <com.zsqw123.learner.view.example.IconImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <com.zsqw123.learner.view.IconImageView
+        <com.zsqw123.learner.view.example.IconImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <com.zsqw123.learner.view.IconImageView
+        <com.zsqw123.learner.view.example.IconImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-    </com.zsqw123.learner.view.ChangeableGroup>
+    </com.zsqw123.learner.view.group.ChangeableGroup>
 </LinearLayout>

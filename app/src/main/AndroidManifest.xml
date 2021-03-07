@@ -15,7 +15,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".view.anim.AnimActivity" />
-        <activity android:name=".view.anim.ViewGroupAct" />
+        <activity android:name=".view.group.ViewGroupAct" />
+        <activity android:name=".view.PhotoAct" />
     </application>
 
 </manifest>

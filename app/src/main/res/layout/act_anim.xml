@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:text="color" />
 
-    <com.zsqw123.learner.view.ProgressView
+    <com.zsqw123.learner.view.example.ProgressView
         android:id="@+id/my_progress"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

@@ -1,10 +1,12 @@
-package com.zsqw123.learner.view
+package com.zsqw123.learner.view.example
 
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
 import androidx.core.graphics.withSave
+import com.zsqw123.learner.view.getSquareBitmap
+import com.zsqw123.learner.view.getXsBitmap
 
 class CanvasTransformView(context: Context, attrs: AttributeSet? = null) : View(context, attrs) {
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)

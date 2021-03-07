@@ -11,9 +11,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="anim" />
+
     <Button
         android:id="@+id/bt_view_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="viewGorup" />
+
+    <Button
+        android:id="@+id/bt_photo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="PhotoView" />
 </LinearLayout>

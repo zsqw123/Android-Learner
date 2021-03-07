@@ -1,33 +1,10 @@
-package com.zsqw123.learner.view
+package com.zsqw123.learner.view.group
 
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
 import android.graphics.Rect
 import android.util.AttributeSet
-import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.children
-
-class IconImageView(context: Context, attrs: AttributeSet? = null) : View(context, attrs) {
-    private val size = (75..150).random().dp.toInt()
-    private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
-    private val textPaint = Paint(Paint.ANTI_ALIAS_FLAG) apply {
-        textSize = 20.dp
-        textAlign = Paint.Align.CENTER
-        color = Color.BLACK
-    }
-    private val bitmap = getSquareBitmap(resources, size)
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        setMeasuredDimension(size, size + 20.dp.toInt())
-    }
-
-    override fun onDraw(canvas: Canvas) {
-        canvas.drawBitmap(bitmap, 0f, 0f, paint)
-        canvas.drawText("Hello", width / 2f, size + 20.dp.toInt() - textPaint.descent(), textPaint)
-    }
-}
 
 class ChangeableGroup(context: Context, attrs: AttributeSet?) : ViewGroup(context, attrs) {
     private val childRectList = arrayListOf<Rect>()

@@ -5,8 +5,9 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.zsqw123.learner.databinding.ActivityMainBinding
+import com.zsqw123.learner.view.PhotoAct
 import com.zsqw123.learner.view.anim.AnimActivity
-import com.zsqw123.learner.view.anim.ViewGroupAct
+import com.zsqw123.learner.view.group.ViewGroupAct
 import kotlin.reflect.KClass
 
 class MainActivity : AppCompatActivity() {
@@ -16,6 +17,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         binding.btAnim.setOnClickListener { start(AnimActivity::class) }
         binding.btViewGroup.setOnClickListener { start(ViewGroupAct::class) }
+        binding.btPhoto.setOnClickListener { start(PhotoAct::class) }
     }
 }
 

@@ -1,9 +1,13 @@
-package com.zsqw123.learner.view
+package com.zsqw123.learner.view.example
 
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
+import com.zsqw123.learner.view.apply
+import com.zsqw123.learner.view.dp
+import com.zsqw123.learner.view.getRectBitmap
+import com.zsqw123.learner.view.getSquareBitmap
 
 class CircleImageView(context: Context, attrs: AttributeSet? = null) : View(context, attrs) {
     private val bitmapSize = 200.dp

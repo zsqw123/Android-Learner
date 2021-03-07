@@ -1,9 +1,11 @@
-package com.zsqw123.learner.view
+package com.zsqw123.learner.view.example
 
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
+import com.zsqw123.learner.view.apply
+import com.zsqw123.learner.view.dp
 
 class ProgressView(context: Context, attrs: AttributeSet? = null) : View(context, attrs) {
     private var count = 30f

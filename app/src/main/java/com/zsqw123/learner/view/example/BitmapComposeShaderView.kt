@@ -1,9 +1,11 @@
-package com.zsqw123.learner.view
+package com.zsqw123.learner.view.example
 
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
+import com.zsqw123.learner.view.getRectBitmap
+import com.zsqw123.learner.view.getXsBitmap
 
 // Shader 究竟还是 Shader, 貌似对于 BitmapShader
 // 不能指定从什么位置开始 Bitmap 的绘制啊, 难道说就只是一种类似于瓷砖铺设的设计吗?
