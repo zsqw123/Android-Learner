@@ -8,8 +8,8 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.GestureDetector
 import android.view.MotionEvent
+import android.view.ScaleGestureDetector
 import android.view.View
-import android.view.animation.Interpolator
 import android.widget.OverScroller
 import androidx.core.view.GestureDetectorCompat
 import com.zsqw123.learner.view.dp
@@ -20,20 +20,38 @@ private val imageSize = 300.dp.toInt()
 class PhotoView(context: Context, attrs: AttributeSet?) : View(context, attrs), GestureDetector.OnGestureListener, GestureDetector.OnDoubleTapListener {
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val bitmap = getSquareBitmap(resources, imageSize)
-    private var offsetX = 0f
-    private var offsetY = 0f
-    private var offsetXOriginal = 0f
-    private var offsetYOriginal = 0f
-    private var smallScale = 0f
-    private var bigScale = 0f
-    private var isBig = false
-    private var nowScale = 0f
+
+    private var offsetX = 0f // 图片实时偏移
+    private var offsetY = 0f // 图片实时偏移
+    private var currentScale = 0f // 当前缩放比例
         set(value) {
             field = value
             invalidate()
         }
     private val runnable = MyRunner()
+    private val scaleGestureDetector = ScaleGestureDetector(context, object : ScaleGestureDetector.OnScaleGestureListener {
+        override fun onScaleEnd(detector: ScaleGestureDetector) {}
+        override fun onScale(detector: ScaleGestureDetector): Boolean {
+            val tmpScale = currentScale * detector.scaleFactor
+            return if (tmpScale < smallScale || tmpScale > bigScale) {
+                false
+            } else {
+                currentScale = tmpScale
+                true
+            }
+        }
 
+        override fun onScaleBegin(detector: ScaleGestureDetector): Boolean {
+            offsetX = (detector.focusX - width / 2f) * (1 - bigScale / smallScale)
+            offsetY = (detector.focusY - height / 2f) * (1 - bigScale / smallScale)
+            return true
+        }
+    })
+
+    private var smallScale = 0f // 最小缩放比例
+    private var bigScale = 0f // 最大缩放比例
+    private var offsetXOriginal = 0f // 默认偏移, 将 Bitmap 偏移到中心
+    private var offsetYOriginal = 0f // 默认偏移, 将 Bitmap 偏移到中心
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
         offsetXOriginal = (width - bitmap.width) / 2f
@@ -45,25 +63,27 @@ class PhotoView(context: Context, attrs: AttributeSet?) : View(context, attrs), 
             smallScale = height / bitmap.height.toFloat() // 小的缩放就是把图片长边顶到边
             bigScale = width / bitmap.width.toFloat() * 1.5f// 大的缩放就是把图片宽边顶到边
         }
+        currentScale = smallScale
+        objectAnimator.setFloatValues(smallScale, bigScale)
     }
 
     private val gestureDetector by lazy { GestureDetectorCompat(context, this) }
-    private val objectAnimator by lazy {
-        ObjectAnimator.ofFloat(this, "nowScale", 0f, 1f).apply {
-
-        }
-    }
+    private val objectAnimator = ObjectAnimator.ofFloat(this, "currentScale", 0f, 0f)
 
     override fun onDraw(canvas: Canvas) {
-        canvas.translate(offsetX * nowScale, offsetY * nowScale)
-        val realScale = smallScale + (bigScale - smallScale) * nowScale
-        canvas.scale(realScale, realScale, width / 2f, height / 2f)
+        val fraction = (currentScale - smallScale) / (bigScale - smallScale)
+        canvas.translate(offsetX * fraction, offsetY * fraction)
+        canvas.scale(currentScale, currentScale, width / 2f, height / 2f)
         canvas.drawBitmap(bitmap, offsetXOriginal, offsetYOriginal, paint)
     }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent?): Boolean {
-        return gestureDetector.onTouchEvent(event)
+        scaleGestureDetector.onTouchEvent(event)
+        if (!scaleGestureDetector.isInProgress) {
+            gestureDetector.onTouchEvent(event)
+        }
+        return true
     }
 
     override fun onDown(e: MotionEvent?): Boolean = true // 这里要拦截触摸事件, 否则触摸事件不消费
@@ -72,7 +92,7 @@ class PhotoView(context: Context, attrs: AttributeSet?) : View(context, attrs), 
     override fun onShowPress(e: MotionEvent?) {}
 
     override fun onScroll(e1: MotionEvent?, e2: MotionEvent?, distanceX: Float, distanceY: Float): Boolean {
-        if (isBig) {
+        if (currentScale > smallScale) {
             offsetX -= distanceX
             offsetY -= distanceY
             constraintBitmap()
@@ -101,7 +121,7 @@ class PhotoView(context: Context, attrs: AttributeSet?) : View(context, attrs), 
 
     private val scroller = OverScroller(context)
     override fun onFling(e1: MotionEvent?, e2: MotionEvent?, velocityX: Float, velocityY: Float): Boolean {
-        if (isBig) {
+        if (currentScale > smallScale) {
             scroller.fling(
                 offsetX.toInt(), offsetY.toInt(), velocityX.toInt(), velocityY.toInt(),
                 (-(bigScale * bitmap.width - width) / 2).toInt(), ((bigScale * bitmap.width - width) / 2).toInt(),
@@ -118,13 +138,23 @@ class PhotoView(context: Context, attrs: AttributeSet?) : View(context, attrs), 
     }
 
     override fun onDoubleTap(e: MotionEvent): Boolean {
-        isBig = !isBig
-        if (isBig) {
-            offsetX = (e.x - width / 2f) * (1 - bigScale / smallScale)
-            offsetY = (e.y - height / 2f) * (1 - bigScale / smallScale)
-            constraintBitmap()
-            objectAnimator.start()
-        } else objectAnimator.reverse()
+        when {
+            currentScale > bigScale * 0.9 -> { // 当前差不多已经最大了
+                objectAnimator.setFloatValues(smallScale, bigScale)
+                objectAnimator.reverse()
+            }
+            currentScale > smallScale * 1.1 -> { // 差不多已经最小了
+                offsetX = (e.x - width / 2f) * (1 - bigScale / smallScale)
+                offsetY = (e.y - height / 2f) * (1 - bigScale / smallScale)
+                constraintBitmap()
+                objectAnimator.setFloatValues(currentScale, bigScale)
+                objectAnimator.start()
+            }
+            else -> { // 正中间
+                objectAnimator.setFloatValues(smallScale, bigScale)
+                objectAnimator.start()
+            }
+        }
         invalidate()
         return false
     }
