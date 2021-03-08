@@ -12,8 +12,10 @@ import android.view.ScaleGestureDetector
 import android.view.View
 import android.widget.OverScroller
 import androidx.core.view.GestureDetectorCompat
+import com.zsqw123.learner.R
 import com.zsqw123.learner.view.dp
 import com.zsqw123.learner.view.getSquareBitmap
+import com.zsqw123.learner.view.withInvalidate
 
 private val imageSize = 300.dp.toInt()
 
@@ -23,17 +25,17 @@ class PhotoView(context: Context, attrs: AttributeSet?) : View(context, attrs), 
 
     private var offsetX = 0f // 图片实时偏移
     private var offsetY = 0f // 图片实时偏移
-    private var currentScale = 0f // 当前缩放比例
-        set(value) {
-            field = value
-            invalidate()
-        }
+    private var currentScale by withInvalidate { 0f } // 当前缩放比例
+    private var maxSelfScale by withInvalidate { 1.5f }
+    private var maxDoubleTapScale by withInvalidate { 1.5f }
     private val runnable = MyRunner()
     private val scaleGestureDetector = ScaleGestureDetector(context, object : ScaleGestureDetector.OnScaleGestureListener {
         override fun onScaleEnd(detector: ScaleGestureDetector) {}
+
+        // 这玩意返回值代表是否应将此事件视为已处理。如果未处理事件，则 detector 将继续积累运动
         override fun onScale(detector: ScaleGestureDetector): Boolean {
             val tmpScale = currentScale * detector.scaleFactor
-            return if (tmpScale < smallScale || tmpScale > bigScale) {
+            return if (tmpScale < smallScale || tmpScale > maxScale) {
                 false
             } else {
                 currentScale = tmpScale
@@ -48,8 +50,16 @@ class PhotoView(context: Context, attrs: AttributeSet?) : View(context, attrs), 
         }
     })
 
+    init {
+        context.obtainStyledAttributes(attrs, R.styleable.PhotoView).apply {
+            maxSelfScale = getFloat(R.styleable.PhotoView_maxScale, 1.5f)
+            maxDoubleTapScale = getFloat(R.styleable.PhotoView_doubleScale, 1.5f)
+        }.recycle()
+    }
+
     private var smallScale = 0f // 最小缩放比例
-    private var bigScale = 0f // 最大缩放比例
+    private var bigScale = 0f // 双击缩放比例
+    private var maxScale = 0f // 最大缩放比例
     private var offsetXOriginal = 0f // 默认偏移, 将 Bitmap 偏移到中心
     private var offsetYOriginal = 0f // 默认偏移, 将 Bitmap 偏移到中心
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -58,10 +68,12 @@ class PhotoView(context: Context, attrs: AttributeSet?) : View(context, attrs), 
         offsetYOriginal = (height - bitmap.height) / 2f
         if (bitmap.width / bitmap.height.toFloat() > width / height.toFloat()) {// 图片 宽 > 高
             smallScale = width / bitmap.width.toFloat() // 小的缩放就是把图片宽边顶到边
-            bigScale = height / bitmap.height.toFloat() * 1.5f // 大的缩放就是把图片长边顶到边
+            bigScale = height / bitmap.height.toFloat() * maxDoubleTapScale // 大的缩放就是把图片长边顶到边
+            maxScale = height / bitmap.height.toFloat() * maxSelfScale
         } else { // 图片 宽 < 高
             smallScale = height / bitmap.height.toFloat() // 小的缩放就是把图片长边顶到边
-            bigScale = width / bitmap.width.toFloat() * 1.5f// 大的缩放就是把图片宽边顶到边
+            bigScale = width / bitmap.width.toFloat() * maxDoubleTapScale// 大的缩放就是把图片宽边顶到边
+            maxScale = width / bitmap.width.toFloat() * maxSelfScale
         }
         currentScale = smallScale
         objectAnimator.setFloatValues(smallScale, bigScale)
@@ -140,18 +152,14 @@ class PhotoView(context: Context, attrs: AttributeSet?) : View(context, attrs), 
     override fun onDoubleTap(e: MotionEvent): Boolean {
         when {
             currentScale > bigScale * 0.9 -> { // 当前差不多已经最大了
-                objectAnimator.setFloatValues(smallScale, bigScale)
+                objectAnimator.setFloatValues(smallScale, currentScale)
                 objectAnimator.reverse()
             }
-            currentScale > smallScale * 1.1 -> { // 差不多已经最小了
+            else -> { // 差不多已经最小了
                 offsetX = (e.x - width / 2f) * (1 - bigScale / smallScale)
                 offsetY = (e.y - height / 2f) * (1 - bigScale / smallScale)
                 constraintBitmap()
                 objectAnimator.setFloatValues(currentScale, bigScale)
-                objectAnimator.start()
-            }
-            else -> { // 正中间
-                objectAnimator.setFloatValues(smallScale, bigScale)
                 objectAnimator.start()
             }
         }

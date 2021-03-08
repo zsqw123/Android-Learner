@@ -4,8 +4,10 @@ import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.TypedValue
+import android.view.View
 import androidx.annotation.DrawableRes
 import com.zsqw123.learner.R
+import kotlin.reflect.KProperty
 
 val Int.dp
     get() = TypedValue.applyDimension(
@@ -33,3 +35,22 @@ inline infix fun <reified T> T.apply(method: T.() -> Unit): T {
     method()
     return this
 }
+
+fun <T> withInvalidate(initializer: () -> T) = ViewInvalidateDelegates(initializer)
+
+class ViewInvalidateDelegates<T>(val initializer: () -> T) {
+    private var mRealValue: T? = null
+    operator fun getValue(thisRef: View, property: KProperty<*>): T {
+        if (mRealValue == null) mRealValue = initializer()
+        return mRealValue!!
+    }
+
+    operator fun setValue(thisRef: View, property: KProperty<*>, value: T) {
+        thisRef.invalidate()
+        mRealValue = value
+    }
+}
+
+//fun main() {
+//
+//}
