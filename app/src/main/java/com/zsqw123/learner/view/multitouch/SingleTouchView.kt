@@ -42,9 +42,6 @@ class SingleTouchView(context: Context?, attrs: AttributeSet?) : View(context, a
                 offsetY = event.y - tmpOffSetY + lastExtraY
                 invalidate()
             }
-            MotionEvent.ACTION_POINTER_DOWN -> {
-
-            }
         }
         return true
     }
