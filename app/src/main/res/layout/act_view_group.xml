@@ -5,11 +5,6 @@
     android:background="#C77D97"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv"
-        android:layout_width="100dp"
-        android:layout_height="100dp" />
-
     <com.zsqw123.learner.view.group.ChangeableGroup
         android:layout_width="match_parent"
         android:layout_height="match_parent">

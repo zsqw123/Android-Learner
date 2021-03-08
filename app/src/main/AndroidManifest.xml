@@ -16,7 +16,8 @@
         </activity>
         <activity android:name=".view.anim.AnimActivity" />
         <activity android:name=".view.group.ViewGroupAct" />
-        <activity android:name=".view.PhotoAct" />
+        <activity android:name=".view.photoview.PhotoAct" />
+        <activity android:name=".view.multitouch.TouchActivity" />
     </application>
 
 </manifest>

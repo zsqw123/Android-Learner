@@ -10,8 +10,5 @@ class ViewGroupAct : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding = ActViewGroupBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        thread {
-            binding.tv.text = "emmm"
-        }
     }
 }

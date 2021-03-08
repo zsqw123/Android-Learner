@@ -1,4 +1,4 @@
-package com.zsqw123.learner.view.anim
+package com.zsqw123.learner.view.photoview
 
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint

@@ -6,30 +6,24 @@ import android.util.AttributeSet
 import android.view.View
 import com.zsqw123.learner.view.apply
 import com.zsqw123.learner.view.dp
+import com.zsqw123.learner.view.withInvalidate
 
 class ProgressView(context: Context, attrs: AttributeSet? = null) : View(context, attrs) {
-    private var count = 30f
-        set(value) {
-            field = value
-            invalidate()
-        }
-    private var progressColor = Color.MAGENTA
-        set(value) {
-            field = value
-            invalidate()
-        }
+    private var count by withInvalidate { 30f }
+    private var progressColor by withInvalidate { Color.MAGENTA }
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.STROKE
         strokeWidth = 16.dp
 //        strokeJoin = Paint.Join.ROUND // 拐角处加入方式
         strokeCap = Paint.Cap.ROUND // 画笔边缘形状
     }
-    private val innerPaint get() =  Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        style = Paint.Style.STROKE
-        strokeWidth = 14.dp
-        strokeCap = Paint.Cap.ROUND
-        color = progressColor
-    }
+    private val innerPaint
+        get() = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            style = Paint.Style.STROKE
+            strokeWidth = 14.dp
+            strokeCap = Paint.Cap.ROUND
+            color = progressColor
+        }
     private val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         textSize = 48.dp
         textAlign = Paint.Align.CENTER

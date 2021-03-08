@@ -1,4 +1,4 @@
-package com.zsqw123.learner.view
+package com.zsqw123.learner.view.photoview
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
