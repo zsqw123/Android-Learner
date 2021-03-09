@@ -21,6 +21,7 @@
         <activity android:name=".view.touch.DragActivity" />
         <activity android:name=".view.touch.TwoPagerActivity" />
         <activity android:name=".view.touch.DragDropActivity" />
+        <activity android:name=".view.touch.DragListenerActivity" />
     </application>
 
 </manifest>
