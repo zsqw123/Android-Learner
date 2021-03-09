@@ -8,7 +8,7 @@ import com.zsqw123.learner.databinding.ActivityMainBinding
 import com.zsqw123.learner.view.photoview.PhotoAct
 import com.zsqw123.learner.view.anim.AnimActivity
 import com.zsqw123.learner.view.group.ViewGroupAct
-import com.zsqw123.learner.view.multitouch.TouchActivity
+import com.zsqw123.learner.view.touch.TouchActivity
 import kotlin.reflect.KClass
 
 class MainActivity : AppCompatActivity() {

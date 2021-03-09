@@ -1,4 +1,4 @@
-package com.zsqw123.learner.view.multitouch
+package com.zsqw123.learner.view.touch
 
 import android.annotation.SuppressLint
 import android.content.Context

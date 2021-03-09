@@ -10,16 +10,28 @@
         android:layout_height="wrap_content"
         android:text="Painter" />
 
+    <Button
+        android:id="@+id/bt_two_pager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pager" />
+
+    <Button
+        android:id="@+id/bt_drag"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Drag" />
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.zsqw123.learner.view.multitouch.MultiTouchFocusView
+        <com.zsqw123.learner.view.touch.MultiTouchFocusView
             android:id="@+id/view_focus"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <com.zsqw123.learner.view.multitouch.PainterView
+        <com.zsqw123.learner.view.touch.PainterView
             android:id="@+id/view_painter"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

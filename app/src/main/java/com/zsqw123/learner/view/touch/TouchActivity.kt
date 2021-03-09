@@ -1,9 +1,10 @@
-package com.zsqw123.learner.view.multitouch
+package com.zsqw123.learner.view.touch
 
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.zsqw123.learner.databinding.ActTouchBinding
+import com.zsqw123.learner.start
 
 class TouchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,6 +21,8 @@ class TouchActivity : AppCompatActivity() {
                     viewPainter.visibility = View.GONE
                 }
             }
+            btTwoPager.setOnClickListener { start(TwoPagerActivity::class) }
+            btDrag.setOnClickListener { start(DragActivity::class) }
         }
     }
 }

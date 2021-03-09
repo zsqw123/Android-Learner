@@ -17,7 +17,10 @@
         <activity android:name=".view.anim.AnimActivity" />
         <activity android:name=".view.group.ViewGroupAct" />
         <activity android:name=".view.photoview.PhotoAct" />
-        <activity android:name=".view.multitouch.TouchActivity" />
+        <activity android:name=".view.touch.TouchActivity" />
+        <activity android:name=".view.touch.DragActivity" />
+        <activity android:name=".view.touch.TwoPagerActivity" />
+        <activity android:name=".view.touch.DragDropActivity" />
     </application>
 
 </manifest>
