@@ -1,12 +1,25 @@
 package com.zsqw123.learner.view.multitouch
 
-import android.app.Activity
 import android.os.Bundle
-import com.zsqw123.learner.R
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import com.zsqw123.learner.databinding.ActTouchBinding
 
-class TouchActivity : Activity() {
+class TouchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.act_touch)
+        val binding = ActTouchBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        binding.apply {
+            btPainterSwitch.setOnClickListener {
+                if (viewFocus.visibility == View.VISIBLE) {
+                    viewFocus.visibility = View.GONE
+                    viewPainter.visibility = View.VISIBLE
+                } else {
+                    viewFocus.visibility = View.VISIBLE
+                    viewPainter.visibility = View.GONE
+                }
+            }
+        }
     }
 }

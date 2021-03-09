@@ -1,4 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zsqw123.learner.view.multitouch.MultiTouchFocusView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" />
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/bt_painter_switch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Painter" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.zsqw123.learner.view.multitouch.MultiTouchFocusView
+            android:id="@+id/view_focus"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <com.zsqw123.learner.view.multitouch.PainterView
+            android:id="@+id/view_painter"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+    </FrameLayout>
+
+</LinearLayout>
