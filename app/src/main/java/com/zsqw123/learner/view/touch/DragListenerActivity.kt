@@ -3,7 +3,6 @@ package com.zsqw123.learner.view.touch
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.DragEvent
-import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import com.zsqw123.learner.databinding.ActDragListenerBinding
 

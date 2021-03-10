@@ -4,34 +4,49 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <Button
-        android:id="@+id/bt_painter_switch"
+    <GridLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Painter" />
+        android:columnCount="3"
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/bt_two_pager"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Pager" />
+        <Button
+            android:id="@+id/bt_painter_switch"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Painter" />
 
-    <Button
-        android:id="@+id/bt_drag"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Drag" />
+        <Button
+            android:id="@+id/bt_two_pager"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Pager" />
 
-    <Button
-        android:id="@+id/bt_drag_drop"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Drag Drop" />
- <Button
-        android:id="@+id/bt_recive_drop"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="recive Drop" />
+        <Button
+            android:id="@+id/bt_drag"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Drag" />
+
+        <Button
+            android:id="@+id/bt_drag_drop"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Drag Drop" />
+
+        <Button
+            android:id="@+id/bt_recive_drop"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="recive Drop" />
+
+        <Button
+            android:id="@+id/bt_drag_updown"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Drag updown" />
+    </GridLayout>
+
 
     <FrameLayout
         android:layout_width="match_parent"

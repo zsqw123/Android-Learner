@@ -50,7 +50,7 @@ class DragLayout(context: Context?, attrs: AttributeSet?) : ViewGroup(context, a
         }
     }
 
-    inner class DragHelper : ViewDragHelper.Callback() {
+    private inner class DragHelper : ViewDragHelper.Callback() {
         private var viewL = 0
         private var viewT = 0
 
