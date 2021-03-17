@@ -9,6 +9,8 @@ import com.zsqw123.learner.view.photoview.PhotoAct
 import com.zsqw123.learner.view.anim.AnimActivity
 import com.zsqw123.learner.view.group.ViewGroupAct
 import com.zsqw123.learner.view.touch.TouchActivity
+//import okhttp3.*
+//import java.io.IOException
 import kotlin.reflect.KClass
 
 class MainActivity : AppCompatActivity() {
@@ -20,6 +22,13 @@ class MainActivity : AppCompatActivity() {
         binding.btViewGroup.setOnClickListener { start(ViewGroupAct::class) }
         binding.btPhoto.setOnClickListener { start(PhotoAct::class) }
         binding.btTouch.setOnClickListener { start(TouchActivity::class) }
+//        val okHttpClient = OkHttpClient.Builder().build()
+//        val request = Request.Builder().url("").get().build()
+//        val call = okHttpClient.newCall(request)
+//        call.enqueue(object : Callback {
+//            override fun onFailure(call: Call, e: IOException) {}
+//            override fun onResponse(call: Call, response: Response) {}
+//        })
     }
 }
 

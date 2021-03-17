@@ -54,7 +54,7 @@ class MyPager(context: Context, attrs: AttributeSet?) : ViewGroup(context, attrs
                 // 只有当滑动绝对值大于最小滑动距离时拦截事件, 之后交由 onTouchEvent 处理
                 if (abs(ev.x - downX) > pagingSlop) {
                     scrolling = true // 避免多次触发
-                    parent.requestDisallowInterceptTouchEvent(true)
+                    parent.requestDisallowInterceptTouchEvent(true) // 让父 view 不去拦截触摸事件
                     return true
                 }
             }

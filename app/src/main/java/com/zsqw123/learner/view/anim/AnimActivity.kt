@@ -8,6 +8,8 @@ import android.view.animation.OvershootInterpolator
 import android.view.animation.PathInterpolator
 import androidx.appcompat.app.AppCompatActivity
 import com.zsqw123.learner.databinding.ActAnimBinding
+import com.zsqw123.learner.start
+import com.zsqw123.learner.view.example.CameraActivity
 
 class AnimActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,6 +47,9 @@ class AnimActivity : AppCompatActivity() {
                 }
                 duration = 4000
             }.start()
+        }
+        binding.btRotate.setOnClickListener {
+            start(CameraActivity::class)
         }
     }
 }

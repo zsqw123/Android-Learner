@@ -14,7 +14,7 @@ import com.zsqw123.learner.view.dp
 
 class PainterView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        strokeWidth = 4.dp
+        strokeWidth = 8.dp
         strokeCap = Paint.Cap.ROUND
         strokeJoin = Paint.Join.ROUND
         style = Paint.Style.STROKE

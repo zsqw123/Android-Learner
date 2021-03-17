@@ -7,6 +7,8 @@ import android.util.TypedValue
 import android.view.View
 import androidx.annotation.DrawableRes
 import com.zsqw123.learner.R
+import kotlin.math.pow
+import kotlin.math.sqrt
 import kotlin.reflect.KProperty
 
 val Int.dp
@@ -49,6 +51,10 @@ class ViewInvalidateDelegates<T>(val initializer: () -> T) {
         thisRef.invalidate()
         mRealValue = value
     }
+}
+
+fun distance(x0: Float, y0: Float, x1: Float, y1: Float): Float {
+    return sqrt(((x0 - x1).pow(2) + (y0 - y1).pow(2)))
 }
 
 //fun main() {
