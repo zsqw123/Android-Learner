@@ -57,6 +57,10 @@ fun distance(x0: Float, y0: Float, x1: Float, y1: Float): Float {
     return sqrt(((x0 - x1).pow(2) + (y0 - y1).pow(2)))
 }
 
+fun <T> List<T>.enlargeShuffled(times: Int): List<T> {
+    return List(size * times) { get(it % size) }.shuffled()
+}
+
 //fun main() {
-//
+//    listOf(1, 1, 2, 3, 3, 4).enlarge(3).forEach { print(it) }
 //}

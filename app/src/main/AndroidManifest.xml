@@ -24,6 +24,7 @@
         <activity android:name=".view.touch.DragListenerActivity" />
         <activity android:name=".view.touch.DragUpDownActivity" />
         <activity android:name=".view.example.CameraActivity" />
+        <activity android:name=".view.group.TagAct" />
     </application>
 
 </manifest>

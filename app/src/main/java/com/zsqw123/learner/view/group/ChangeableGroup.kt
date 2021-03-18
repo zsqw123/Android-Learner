@@ -6,6 +6,10 @@ import android.util.AttributeSet
 import android.view.ViewGroup
 import androidx.core.view.children
 
+/**
+ * 更好的实现
+ * @see TagLayout
+ */
 class ChangeableGroup(context: Context, attrs: AttributeSet?) : ViewGroup(context, attrs) {
     private val childRectList = arrayListOf<Rect>()
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {

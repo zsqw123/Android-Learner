@@ -5,6 +5,12 @@
     android:background="#C77D97"
     android:orientation="vertical">
 
+    <Button
+        android:id="@+id/bt_tag"
+        android:text="TAG LAYOUT"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <com.zsqw123.learner.view.group.ChangeableGroup
         android:layout_width="match_parent"
         android:layout_height="match_parent">
