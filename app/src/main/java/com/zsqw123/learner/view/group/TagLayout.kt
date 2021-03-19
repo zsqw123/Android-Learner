@@ -4,14 +4,13 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.os.Build
 import android.os.Bundle
 import android.util.AttributeSet
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatTextView
-import androidx.core.view.children
-import androidx.core.view.marginEnd
-import androidx.core.view.marginStart
+import androidx.core.view.*
 import com.zsqw123.learner.databinding.LayoutTagBinding
 import com.zsqw123.learner.view.apply
 import com.zsqw123.learner.view.dp
@@ -34,13 +33,13 @@ class TagLayout(context: Context, attrs: AttributeSet? = null) : ViewGroup(conte
             measureChildWithMargins(child, widthMeasureSpec, 0, heightMeasureSpec, heightUsed)
             if (MeasureSpec.getMode(widthMeasureSpec) != MeasureSpec.UNSPECIFIED && singleWidthUsed + child.measuredWidth > MeasureSpec.getSize(widthMeasureSpec)) {
                 singleWidthUsed = 0
-                heightUsed += singleHeightUsed
-                singleHeightUsed = 0
+                heightUsed += singleHeightUsed + child.marginBottom
+                singleHeightUsed = child.marginTop
                 measureChildWithMargins(child, widthMeasureSpec, 0, heightMeasureSpec, heightUsed)
             }
             singleWidthUsed += child.measuredWidth
             widthUsed = maxOf(widthUsed, singleWidthUsed)
-            singleHeightUsed = maxOf(singleHeightUsed, child.measuredHeight)
+            singleHeightUsed = maxOf(singleHeightUsed, child.measuredHeight + child.marginTop)
         }
         setMeasuredDimension(widthUsed, heightUsed + singleHeightUsed)
     }
@@ -53,10 +52,10 @@ class TagLayout(context: Context, attrs: AttributeSet? = null) : ViewGroup(conte
             maxHeight = maxHeight.coerceAtLeast(child.measuredHeight)
             left += child.marginStart
             if (left + child.measuredWidth + child.marginEnd > r - l) {
-                top += maxHeight
+                top += maxHeight + child.marginBottom
                 left = child.marginStart
             }
-            child.layout(left, top, left + child.measuredWidth + child.marginEnd, top + child.measuredHeight)
+            child.layout(left, top + child.marginTop, left + child.measuredWidth + child.marginEnd, top + child.marginTop + child.measuredHeight)
             left += child.measuredWidth + child.marginEnd
         }
     }
@@ -67,15 +66,20 @@ class TagLayout(context: Context, attrs: AttributeSet? = null) : ViewGroup(conte
 }
 
 class SingleTagView(context: Context, attrs: AttributeSet? = null) : AppCompatTextView(context, attrs) {
-    private val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = colorList.random() }
+    private val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = colorList.random()
+        setShadowLayer(2.dp, 2.dp, 2.dp, Color.BLACK)
+    }
+    private val isSdkVersion28 = Build.VERSION.SDK_INT >= 28
 
     init {
+        if (!isSdkVersion28) setLayerType(LAYER_TYPE_SOFTWARE, null)
         text = " ${strList.random()} "
         textSize = 6.dp
     }
 
     override fun onDraw(canvas: Canvas) {
-        canvas.drawRoundRect(0f, 0f, width.toFloat(), height.toFloat(), 8.dp, 8.dp, paint)
+        canvas.drawRoundRect(0f, 0f, width.toFloat() - 2.dp, height.toFloat() - 2.dp, 8.dp, 8.dp, paint)
         super.onDraw(canvas)
     }
 }
