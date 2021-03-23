@@ -3,6 +3,7 @@
     package="com.zsqw123.learner">
 
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:label="@string/app_name"
         android:supportsRtl="true"
@@ -25,6 +26,9 @@
         <activity android:name=".view.touch.DragUpDownActivity" />
         <activity android:name=".view.example.CameraActivity" />
         <activity android:name=".view.group.TagAct" />
+        <activity android:name=".ServiceActivity" />
+
+        <service android:name=".MainService" />
     </application>
 
 </manifest>

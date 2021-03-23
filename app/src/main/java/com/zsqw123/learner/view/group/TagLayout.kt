@@ -20,7 +20,7 @@ private val strList = listOf("一个", "两个字", "三个字呢", "这是四�
 private val colorList = arrayOf(Color.RED, Color.GREEN, Color.GRAY, Color.BLUE)
 
 /**
- * 另一个范例, 另一个范例在 onMeasure 里创建对象, 并不优雅 qwq
+ * 另一个范例在 onMeasure 里创建对象, 并不优雅 qwq
  * @see ChangeableGroup
  */
 class TagLayout(context: Context, attrs: AttributeSet? = null) : ViewGroup(context, attrs) {

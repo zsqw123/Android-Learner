@@ -22,6 +22,7 @@ class MainActivity : AppCompatActivity() {
         binding.btViewGroup.setOnClickListener { start(ViewGroupAct::class) }
         binding.btPhoto.setOnClickListener { start(PhotoAct::class) }
         binding.btTouch.setOnClickListener { start(TouchActivity::class) }
+        binding.btService.setOnClickListener { start(ServiceActivity::class) }
 //        val okHttpClient = OkHttpClient.Builder().build()
 //        val request = Request.Builder().url("").get().build()
 //        val call = okHttpClient.newCall(request)
