@@ -14,4 +14,12 @@ class SGlide(private val context: Context, private val imageUrl: String = "https
             }
         }
     }
+
+    companion object {
+        var loadFrom = LoadFrom.NETWORK
+    }
+}
+
+enum class LoadFrom {
+    NETWORK, CACHE, LRU, WEAK
 }

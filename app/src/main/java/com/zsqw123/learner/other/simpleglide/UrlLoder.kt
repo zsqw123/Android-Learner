@@ -3,8 +3,6 @@ package com.zsqw123.learner.other.simpleglide
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.os.Handler
-import android.os.Looper
 import java.net.HttpURLConnection
 import java.net.URL
 import java.util.concurrent.Executors
@@ -21,6 +19,7 @@ class UrlLoder(private val context: Context, private val imageUrl: String) {
                             Cache(context).storeToCache(imageUrl, bitmap)
                         }
                     }.shutdown()
+                    SGlide.loadFrom = LoadFrom.NETWORK
                     imageInvoke(bitmap)
                 }
             }

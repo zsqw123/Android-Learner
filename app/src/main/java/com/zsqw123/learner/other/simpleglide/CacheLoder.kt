@@ -12,7 +12,10 @@ class CacheLoder(private val context: Context, private val imageUrl: String) {
             if (it == null) UrlLoder(context, imageUrl).load { bitmap ->
                 LruLoder.lru.put(imageUrl, bitmap)
                 imageInvoke(bitmap)
-            } else imageInvoke(it)
+            } else {
+                SGlide.loadFrom = LoadFrom.CACHE
+                imageInvoke(it)
+            }
         }
     }
 }
@@ -44,6 +47,11 @@ class Cache(private val context: Context) {
         Executors.newCachedThreadPool().execute {
             bitmapInvoke(getBitmapBlocked(url))
         }
+    }
+
+    fun clearAll() {
+        val file = File(context.cacheDir.path + "/SGlide/")
+        if (file.exists()) file.deleteRecursively()
     }
 
     private fun getBitmapBlocked(url: String): Bitmap? {

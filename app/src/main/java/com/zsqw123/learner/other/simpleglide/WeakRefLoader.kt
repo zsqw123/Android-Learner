@@ -6,8 +6,10 @@ import java.util.*
 
 class WeakRefLoader(private val context: Context, private val imageUrl: String) {
     fun load(imageInvoke: (Bitmap) -> Unit) {
-        if (weakHashMap.containsKey(imageUrl)) imageInvoke(weakHashMap[imageUrl]!!)
-        else LruLoder(context, imageUrl).load(imageInvoke)
+        if (weakHashMap.containsKey(imageUrl)) {
+            SGlide.loadFrom = LoadFrom.WEAK
+            imageInvoke(weakHashMap[imageUrl]!!)
+        } else LruLoder(context, imageUrl).load(imageInvoke)
     }
 
     companion object {

@@ -9,8 +9,20 @@ class SimpleGlideActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding = ActGlideBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.load.setOnClickListener {
-            SGlide(this).load { bitmap -> binding.iv.setImageBitmap(bitmap) }
+        binding.apply {
+            et.setText("https://cdn.jsdelivr.net/gh/zsqw123/cdn@master/picCDN/20210323225931.png")
+            load.setOnClickListener {
+                SGlide(this@SimpleGlideActivity, et.text.toString()).load { bitmap ->
+                    binding.iv.setImageBitmap(bitmap)
+                    binding.tv.text = "LoadFrom: " + SGlide.loadFrom::name.get()
+                }
+            }
+            clearCache.setOnClickListener {
+                Cache(this@SimpleGlideActivity).clearAll()
+            }
+            clearImage.setOnClickListener { iv.setImageBitmap(null) }
+            clearWeakref.setOnClickListener { WeakRefLoader.weakHashMap.clear() }
+            clearLru.setOnClickListener { LruLoder.lru.evictAll() }
         }
     }
 }

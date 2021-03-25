@@ -10,7 +10,10 @@ class LruLoder(private val context: Context, private val imageUrl: String) {
         if (lruGetted == null) CacheLoder(context, imageUrl).load {
             WeakRefLoader.weakHashMap[imageUrl] = it
             imageInvoke(it)
-        } else imageInvoke(lruGetted)
+        } else {
+            SGlide.loadFrom = LoadFrom.LRU
+            imageInvoke(lruGetted)
+        }
     }
 
     companion object {

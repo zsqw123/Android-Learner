@@ -4,11 +4,49 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <EditText
+        android:id="@+id/et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Input your image link here"
+        android:inputType="text"
+        android:maxLines="1" />
+
     <Button
         android:id="@+id/load"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="load" />
+
+    <Button
+        android:id="@+id/clear_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="clear image" />
+
+    <Button
+        android:id="@+id/clear_lru"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="clear lru" />
+
+    <Button
+        android:id="@+id/clear_weakref"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="clear weakhashmap" />
+
+    <Button
+        android:id="@+id/clear_cache"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="clear cache" />
+
+    <TextView
+        android:id="@+id/tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center" />
 
     <ImageView
         android:id="@+id/iv"
