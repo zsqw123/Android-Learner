@@ -14,6 +14,7 @@ class CacheLoder(private val context: Context, private val imageUrl: String) {
                 imageInvoke(bitmap)
             } else {
                 SGlide.loadFrom = LoadFrom.CACHE
+                LruLoder.lru.put(imageUrl, it)
                 imageInvoke(it)
             }
         }
