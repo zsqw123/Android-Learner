@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.zsqw123.learner">
 
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -27,6 +28,7 @@
         <activity android:name=".view.example.CameraActivity" />
         <activity android:name=".view.group.TagAct" />
         <activity android:name=".ServiceActivity" />
+        <activity android:name=".other.simpleglide.SimpleGlideActivity" />
 
         <service android:name=".MainService" />
     </application>

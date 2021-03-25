@@ -39,5 +39,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Service" />
+
+        <Button
+            android:id="@+id/bt_simple_glide"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Simple Glide" />
     </LinearLayout>
 </ScrollView>
