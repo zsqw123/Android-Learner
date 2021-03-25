@@ -3,6 +3,10 @@
     package="com.zsqw123.learner">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.zsqw123.broadcast.PERM" />
+
+    <permission android:name="com.zsqw123.broadcast.PERM"/>
+
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -29,8 +33,8 @@
         <activity android:name=".view.group.TagAct" />
         <activity android:name=".ServiceActivity" />
         <activity android:name=".other.simpleglide.SimpleGlideActivity" />
+        <activity android:name=".other.broadcast.BroadcastActivity" />
 
         <service android:name=".MainService" />
     </application>
-
 </manifest>

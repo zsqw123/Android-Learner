@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.zsqw123.learner.databinding.ActivityMainBinding
+import com.zsqw123.learner.other.broadcast.BroadcastActivity
 import com.zsqw123.learner.other.simpleglide.SimpleGlideActivity
 import com.zsqw123.learner.view.photoview.PhotoAct
 import com.zsqw123.learner.view.anim.AnimActivity
@@ -25,6 +26,7 @@ class MainActivity : AppCompatActivity() {
             btPhoto.setOnClickListener { start(PhotoAct::class) }
             btTouch.setOnClickListener { start(TouchActivity::class) }
             btService.setOnClickListener { start(ServiceActivity::class) }
+            btBroadcast.setOnClickListener { start(BroadcastActivity::class) }
             btSimpleGlide.setOnClickListener { start(SimpleGlideActivity::class) }
         }
 
