@@ -1,8 +1,11 @@
 package com.zsqw123.learner.other.simpleglide
 
 import android.os.Bundle
+import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import com.zsqw123.learner.databinding.ActGlideBinding
+
+val sampleImageUrl = "https://cdn.jsdelivr.net/gh/zsqw123/cdn@master/picCDN/20210323225931.png"
 
 class SimpleGlideActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -10,7 +13,7 @@ class SimpleGlideActivity : AppCompatActivity() {
         val binding = ActGlideBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.apply {
-            et.setText("https://cdn.jsdelivr.net/gh/zsqw123/cdn@master/picCDN/20210323225931.png")
+            et.setText(sampleImageUrl)
             load.setOnClickListener {
                 SGlide(this@SimpleGlideActivity, et.text.toString()).load { bitmap ->
                     binding.iv.setImageBitmap(bitmap)

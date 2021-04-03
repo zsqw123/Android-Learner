@@ -27,7 +27,7 @@
         <activity android:name=".view.touch.DragActivity" />
         <activity android:name=".view.touch.TwoPagerActivity" />
         <activity android:name=".view.touch.DragDropActivity" />
-        <activity android:name=".view.touch.DragListenerActivity" />
+        <activity android:name=".view.touch.TouchInterceptActivity" />
         <activity android:name=".view.touch.DragUpDownActivity" />
         <activity android:name=".view.example.CameraActivity" />
         <activity android:name=".view.group.TagAct" />

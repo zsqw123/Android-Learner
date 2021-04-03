@@ -24,7 +24,7 @@ class TouchActivity : AppCompatActivity() {
             btTwoPager.setOnClickListener { start(TwoPagerActivity::class) }
             btDrag.setOnClickListener { start(DragActivity::class) }
             btDragDrop.setOnClickListener { start(DragDropActivity::class) }
-            btReciveDrop.setOnClickListener { start(DragListenerActivity::class) }
+            btTouchIntercept.setOnClickListener { start(TouchInterceptActivity::class) }
             btDragUpdown.setOnClickListener { start(DragUpDownActivity::class) }
         }
     }
