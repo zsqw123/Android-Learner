@@ -7,6 +7,9 @@ import android.util.TypedValue
 import android.view.View
 import androidx.annotation.DrawableRes
 import com.zsqw123.learner.R
+import okio.Okio
+import okio.source
+import java.io.File
 import kotlin.math.pow
 import kotlin.math.sqrt
 import kotlin.reflect.KProperty
@@ -61,6 +64,6 @@ fun <T> List<T>.enlargeShuffled(times: Int): List<T> {
     return List(size * times) { get(it % size) }.shuffled()
 }
 
-//fun main() {
-//    listOf(1, 1, 2, 3, 3, 4).enlarge(3).forEach { print(it) }
-//}
+fun main() {
+
+}

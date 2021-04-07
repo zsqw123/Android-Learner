@@ -37,7 +37,7 @@ class TagLayout(context: Context, attrs: AttributeSet? = null) : ViewGroup(conte
                 singleHeightUsed = child.marginTop
                 measureChildWithMargins(child, widthMeasureSpec, 0, heightMeasureSpec, heightUsed)
             }
-            singleWidthUsed += child.measuredWidth
+            singleWidthUsed += child.measuredWidth + child.marginStart + child.marginEnd
             widthUsed = maxOf(widthUsed, singleWidthUsed)
             singleHeightUsed = maxOf(singleHeightUsed, child.measuredHeight + child.marginTop)
         }
@@ -55,7 +55,7 @@ class TagLayout(context: Context, attrs: AttributeSet? = null) : ViewGroup(conte
                 top += maxHeight + child.marginBottom
                 left = child.marginStart
             }
-            child.layout(left, top + child.marginTop, left + child.measuredWidth + child.marginEnd, top + child.marginTop + child.measuredHeight)
+            child.layout(left, top + child.marginTop, left + child.measuredWidth, top + child.marginTop + child.measuredHeight)
             left += child.measuredWidth + child.marginEnd
         }
     }

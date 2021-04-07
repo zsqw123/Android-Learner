@@ -1,56 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <GridLayout
+    <com.zsqw123.learner.view.group.TagLayout
+        android:id="@+id/tagLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:columnCount="3"
-        android:orientation="horizontal">
+        app:layout_constraintTop_toTopOf="parent">
 
         <Button
             android:id="@+id/bt_painter_switch"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_marginStart="4dp"
             android:text="Painter" />
 
         <Button
             android:id="@+id/bt_two_pager"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Pager" />
+            android:layout_marginStart="4dp"
+            android:text="Pager"
+            app:layout_constraintStart_toEndOf="@id/bt_painter_switch"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/bt_drag"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Drag" />
+            android:layout_marginStart="4dp"
+            android:text="Drag"
+            app:layout_constraintStart_toEndOf="@id/bt_two_pager"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/bt_drag_drop"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_marginStart="4dp"
             android:text="Drag Drop" />
 
         <Button
             android:id="@+id/bt_touch_intercept"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_marginStart="4dp"
             android:text="recive Drop" />
 
         <Button
             android:id="@+id/bt_drag_updown"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_marginStart="4dp"
             android:text="Drag updown" />
-    </GridLayout>
+    </com.zsqw123.learner.view.group.TagLayout>
 
 
     <FrameLayout
+        android:id="@+id/frameLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/tagLayout">
 
         <com.zsqw123.learner.view.touch.MultiTouchFocusView
             android:id="@+id/view_focus"
@@ -63,5 +76,4 @@
             android:layout_height="match_parent"
             android:visibility="gone" />
     </FrameLayout>
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
