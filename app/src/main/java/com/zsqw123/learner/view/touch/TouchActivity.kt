@@ -21,11 +21,11 @@ class TouchActivity : AppCompatActivity() {
                     viewPainter.visibility = View.GONE
                 }
             }
-            btTwoPager.setOnClickListener { start(TwoPagerActivity::class) }
-            btDrag.setOnClickListener { start(DragActivity::class) }
-            btDragDrop.setOnClickListener { start(DragDropActivity::class) }
-            btTouchIntercept.setOnClickListener { start(TouchInterceptActivity::class) }
-            btDragUpdown.setOnClickListener { start(DragUpDownActivity::class) }
+            btTwoPager.setOnClickListener { start<TwoPagerActivity>() }
+            btDrag.setOnClickListener { start<DragActivity>() }
+            btDragDrop.setOnClickListener { start<DragDropActivity>() }
+            btTouchIntercept.setOnClickListener { start<TouchInterceptActivity>() }
+            btDragUpdown.setOnClickListener { start<DragUpDownActivity>() }
         }
     }
 }

@@ -34,6 +34,7 @@
         <activity android:name=".ServiceActivity" />
         <activity android:name=".other.simpleglide.SimpleGlideActivity" />
         <activity android:name=".other.broadcast.BroadcastActivity" />
+        <activity android:name=".other.test.TestActivity" />
 
         <service android:name=".MainService" />
     </application>

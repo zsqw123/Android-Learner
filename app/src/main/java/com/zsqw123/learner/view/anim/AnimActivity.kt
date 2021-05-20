@@ -49,7 +49,7 @@ class AnimActivity : AppCompatActivity() {
             }.start()
         }
         binding.btRotate.setOnClickListener {
-            start(CameraActivity::class)
+            start<CameraActivity>()
         }
     }
 }

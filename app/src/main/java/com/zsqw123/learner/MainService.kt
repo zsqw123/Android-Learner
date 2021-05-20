@@ -34,9 +34,10 @@ class ServiceActivity : AppCompatActivity() {
             }
 
             override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+                service as MainService.MyBinder
                 binding.btCall.setOnClickListener {
                     if (isConnected)
-                        (service as MainService.MyBinder).callServiceMethod()
+                        service.callServiceMethod()
                 }
             }
         }

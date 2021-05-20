@@ -11,7 +11,7 @@ class ViewGroupAct : AppCompatActivity() {
         val binding = ActViewGroupBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.btTag.setOnClickListener {
-            start(TagAct::class)
+            start<TagAct>()
         }
     }
 }

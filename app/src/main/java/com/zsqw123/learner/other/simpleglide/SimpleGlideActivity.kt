@@ -5,7 +5,7 @@ import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import com.zsqw123.learner.databinding.ActGlideBinding
 
-val sampleImageUrl = "https://cdn.jsdelivr.net/gh/zsqw123/cdn@master/picCDN/20210323225931.png"
+const val sampleImageUrl = "https://cdn.jsdelivr.net/gh/zsqw123/cdn@master/picCDN/20210323225931.png"
 
 class SimpleGlideActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

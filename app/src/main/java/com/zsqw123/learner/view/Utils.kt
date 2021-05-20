@@ -10,8 +10,12 @@ import com.zsqw123.learner.R
 import okio.Okio
 import okio.source
 import java.io.File
+import java.lang.Exception
+import java.lang.StringBuilder
+import java.util.*
 import kotlin.math.pow
 import kotlin.math.sqrt
+import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
 
 val Int.dp
@@ -65,5 +69,9 @@ fun <T> List<T>.enlargeShuffled(times: Int): List<T> {
 }
 
 fun main() {
+    "666"()
+}
 
+operator fun String.invoke(): String {
+    return this + "by invoke"
 }

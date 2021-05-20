@@ -3,6 +3,8 @@ package com.zsqw123.learner.view.photoview
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.util.AttributeSet
@@ -55,6 +57,7 @@ class PhotoView(context: Context, attrs: AttributeSet?) : View(context, attrs), 
             maxSelfScale = getFloat(R.styleable.PhotoView_maxScale, 1.5f)
             maxDoubleTapScale = getFloat(R.styleable.PhotoView_doubleScale, 1.5f)
         }.recycle()
+        bitmap.byteCount
     }
 
     private var smallScale = 0f // 最小缩放比例

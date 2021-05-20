@@ -3,10 +3,13 @@ package com.zsqw123.learner
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Paint
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
@@ -15,6 +18,7 @@ import com.zsqw123.learner.databinding.ActivityMainBinding
 import com.zsqw123.learner.other.broadcast.BroadcastActivity
 import com.zsqw123.learner.other.simpleglide.SimpleGlideActivity
 import com.zsqw123.learner.other.simpleglide.sampleImageUrl
+import com.zsqw123.learner.other.test.TestActivity
 import com.zsqw123.learner.view.anim.AnimActivity
 import com.zsqw123.learner.view.group.ViewGroupAct
 import com.zsqw123.learner.view.photoview.PhotoAct
@@ -27,7 +31,9 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.http.GET
+import java.io.FileOutputStream
 import java.io.IOException
+import kotlin.concurrent.thread
 import kotlin.reflect.KClass
 
 class MainActivity : AppCompatActivity() {
@@ -36,13 +42,14 @@ class MainActivity : AppCompatActivity() {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.apply {
-            btAnim.setOnClickListener { start(AnimActivity::class) }
-            btViewGroup.setOnClickListener { start(ViewGroupAct::class) }
-            btPhoto.setOnClickListener { start(PhotoAct::class) }
-            btTouch.setOnClickListener { start(TouchActivity::class) }
-            btService.setOnClickListener { start(ServiceActivity::class) }
-            btBroadcast.setOnClickListener { start(BroadcastActivity::class) }
-            btSimpleGlide.setOnClickListener { start(SimpleGlideActivity::class) }
+            btAnim.setOnClickListener { start<AnimActivity>() }
+            btViewGroup.setOnClickListener { start<ViewGroupAct>() }
+            btPhoto.setOnClickListener { start<PhotoAct>() }
+            btTouch.setOnClickListener { start<TouchActivity>() }
+            btService.setOnClickListener { start<ServiceActivity>() }
+            btBroadcast.setOnClickListener { start<BroadcastActivity>() }
+            btSimpleGlide.setOnClickListener { start<SimpleGlideActivity>() }
+            btTest.setOnClickListener{start<TestActivity>()}
         }
 //        val retrofit = Retrofit.Builder().baseUrl("https://cdn.jsdelivr.net").build()
 //        val test = retrofit.create(RetrofitTest::class.java)
@@ -67,7 +74,9 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-fun Activity.start(newActivity: KClass<*>) = startActivity(Intent(this, newActivity.java))
+inline fun <reified T> Activity.start(vararg pairs: Pair<String, Any>) {
+    startActivity(Intent(this, T::class.java), bundleOf(*pairs))
+}
 
 interface RetrofitTest {
     @GET()
