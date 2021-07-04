@@ -66,8 +66,6 @@ class ServiceActivity : AppCompatActivity() {
     }
 }
 
-fun toast(string: String, context: Context = app) = Toast.makeText(context, string, Toast.LENGTH_SHORT).show()
-
 //fun newKt(){
 //    fun changeBackground(color: Color){}
 //    val blue = Color(255)

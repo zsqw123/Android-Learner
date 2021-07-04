@@ -1,62 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        tools:context=".MainActivity">
-
-        <Button
-            android:id="@+id/bt_anim"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="anim" />
-
-        <Button
-            android:id="@+id/bt_view_group"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="viewGorup" />
-
-        <Button
-            android:id="@+id/bt_photo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="PhotoView" />
-
-        <Button
-            android:id="@+id/bt_touch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Touch" />
-
-        <Button
-            android:id="@+id/bt_service"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Service" />
-
-        <Button
-            android:id="@+id/bt_broadcast"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Broadcast" />
-
-        <Button
-            android:id="@+id/bt_simple_glide"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Simple Glide" />
-
-        <Button
-            android:id="@+id/bt_test"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="test" />
-
-    </LinearLayout>
-</ScrollView>
+        android:layout_height="match_parent" />
+</FrameLayout>

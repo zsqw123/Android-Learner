@@ -57,7 +57,6 @@ class PhotoView(context: Context, attrs: AttributeSet?) : View(context, attrs), 
             maxSelfScale = getFloat(R.styleable.PhotoView_maxScale, 1.5f)
             maxDoubleTapScale = getFloat(R.styleable.PhotoView_doubleScale, 1.5f)
         }.recycle()
-        bitmap.byteCount
     }
 
     private var smallScale = 0f // 最小缩放比例
