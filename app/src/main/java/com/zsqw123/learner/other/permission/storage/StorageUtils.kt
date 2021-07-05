@@ -2,15 +2,10 @@ package com.zsqw123.learner.other.permission.storage
 
 import android.app.Application
 import android.content.*
-import android.graphics.Bitmap
 import android.net.Uri
-import android.os.Build
-import android.os.Environment
 import android.provider.MediaStore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.io.File
-import java.io.FileOutputStream
 import java.util.*
 
 /**

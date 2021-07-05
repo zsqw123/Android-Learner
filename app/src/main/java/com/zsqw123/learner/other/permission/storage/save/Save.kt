@@ -20,7 +20,7 @@ import java.util.*
  * Date 2021/7/5 9:39
  */
 interface Save {
-    suspend fun save(name: String = Date().time.toString() + ".jpg", subPath: String = ""): Boolean
+    suspend fun save(name: String = Date().time.toString(), subPath: String = ""): Boolean
 
     companion object {
         suspend fun commonMediaSave(
@@ -57,5 +57,10 @@ interface Save {
             }
             return@withContext true
         }
+
+        suspend fun commonMediaSave(
+            name: String, mainPath: String, subPath: String, contentUri: Uri,
+            file: File, contentValues: ContentValues
+        ): Boolean = commonMediaSave(name, mainPath, subPath, contentUri, file.inputStream(), contentValues)
     }
 }

@@ -4,29 +4,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <Button
-        android:id="@+id/bt_read_pic"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_bt"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="read pics" />
-
-    <Button
-        android:id="@+id/bt_write_pic"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="write pics" />
-
-    <Button
-        android:id="@+id/bt_read_file"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="read file" />
-
-    <Button
-        android:id="@+id/bt_write_file"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="write file" />
+        android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/tv_file_shown"
