@@ -4,8 +4,12 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="com.zsqw123.broadcast.PERM" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
 
-    <permission android:name="com.zsqw123.broadcast.PERM"/>
+    <permission android:name="com.zsqw123.broadcast.PERM" />
 
     <application
         android:name=".App"
@@ -35,6 +39,7 @@
         <activity android:name=".other.simpleglide.SimpleGlideActivity" />
         <activity android:name=".other.broadcast.BroadcastActivity" />
         <activity android:name=".other.test.TestActivity" />
+        <activity android:name=".other.permission.StorageAct" />
 
         <service android:name=".MainService" />
     </application>
