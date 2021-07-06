@@ -53,7 +53,7 @@ class ImageRead(
             sortBy: String = MediaParams.DATE_MODIFIED, isAscend: Boolean = false, filter: String? = null,
             paramsArray: Array<String> = arrayOf()
         ): List<ImageRead> = withContext(Dispatchers.IO) {
-            val projection = arrayOf(MediaStore.Images.Media._ID, *paramsArray)
+            val projection = arrayOf(MediaStore.Images.Media._ID, *defParams, *paramsArray)
             val list = arrayListOf<ImageRead>()
             storageContext.contentResolver.query(
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection,
@@ -61,7 +61,6 @@ class ImageRead(
             )?.use { cursor ->
                 val id = cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID)
                 val others = ArrayMap<String, String>()
-
                 val indices = IntArray(projection.size) { cursor.getColumnIndexOrThrow(projection[it]) }
                 while (cursor.moveToNext()) {
                     val read = ImageRead(uri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, cursor.getLong(id)))
@@ -83,5 +82,17 @@ class ImageRead(
             }
             return@withContext list
         }
+
+        val defParams = arrayOf(
+            MediaParams.DATE_ADDED,
+            MediaParams.DATE_MODIFIED,
+            MediaParams.DISPLAY_NAME,
+            MediaParams.HEIGHT,
+            MediaParams.MIME_TYPE,
+            MediaParams.ORIENTATION,
+            MediaParams.RELATIVE_PATH,
+            MediaParams.SIZE,
+            MediaParams.WIDTH,
+        )
     }
 }

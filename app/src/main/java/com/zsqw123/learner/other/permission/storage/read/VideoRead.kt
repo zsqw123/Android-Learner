@@ -36,7 +36,7 @@ class VideoRead(
             sortBy: String = MediaParams.DATE_MODIFIED, isAscend: Boolean = false, filter: String? = null,
             paramsArray: Array<String> = arrayOf()
         ): List<VideoRead> = withContext(Dispatchers.IO) {
-            val projection = arrayOf(MediaStore.Video.Media._ID, *paramsArray)
+            val projection = arrayOf(MediaStore.Video.Media._ID, *defParams, *paramsArray)
             val list = arrayListOf<VideoRead>()
             storageContext.contentResolver.query(
                 MediaStore.Video.Media.EXTERNAL_CONTENT_URI, projection,
@@ -66,5 +66,18 @@ class VideoRead(
             }
             return@withContext list
         }
+
+        val defParams = arrayOf(
+            MediaParams.DATE_ADDED,
+            MediaParams.DATE_MODIFIED,
+            MediaParams.DISPLAY_NAME,
+            MediaParams.DURATION,
+            MediaParams.HEIGHT,
+            MediaParams.MIME_TYPE,
+            MediaParams.ORIENTATION,
+            MediaParams.RELATIVE_PATH,
+            MediaParams.SIZE,
+            MediaParams.WIDTH,
+        )
     }
 }

@@ -23,9 +23,6 @@ class AudioRead(
     var dateAdded: Int = 0, // seconds
     var dateModified: Int = 0, // seconds
     var duration: Int = 0, // seconds
-    var width: Int = 0,
-    var height: Int = 0,
-    var orientation: Int = 0, // 0 90 180 270
     var others: Map<String, String> = ArrayMap()
 ) {
     companion object {
@@ -36,7 +33,7 @@ class AudioRead(
             sortBy: String = MediaParams.DATE_MODIFIED, isAscend: Boolean = false, filter: String? = null,
             paramsArray: Array<String> = arrayOf()
         ): List<AudioRead> = withContext(Dispatchers.IO) {
-            val projection = arrayOf(MediaStore.Video.Media._ID, *paramsArray)
+            val projection = arrayOf(MediaStore.Video.Media._ID, *defParams, *paramsArray)
             val list = arrayListOf<AudioRead>()
             storageContext.contentResolver.query(
                 MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, projection,
@@ -53,12 +50,9 @@ class AudioRead(
                         MediaParams.DATE_ADDED -> read.dateAdded = cursor.getInt(indices[i])
                         MediaParams.DATE_MODIFIED -> read.dateModified = cursor.getInt(indices[i])
                         MediaParams.DURATION -> read.duration = cursor.getInt(indices[i])
-                        MediaParams.HEIGHT -> read.height = cursor.getInt(indices[i])
                         MediaParams.MIME_TYPE -> read.mimeType = cursor.getString(indices[i])
-                        MediaParams.ORIENTATION -> read.orientation
                         MediaParams.RELATIVE_PATH -> read.relativePath = cursor.getString(indices[i])
                         MediaParams.SIZE -> read.size = cursor.getInt(indices[i])
-                        MediaParams.WIDTH -> read.width = cursor.getInt(indices[i])
                         else -> others[projection[i]] = cursor.getString(indices[i])
                     }
                     read.others = others
@@ -67,5 +61,15 @@ class AudioRead(
             }
             return@withContext list
         }
+
+        val defParams = arrayOf(
+            MediaParams.DATE_ADDED,
+            MediaParams.DATE_MODIFIED,
+            MediaParams.DISPLAY_NAME,
+            MediaParams.DURATION,
+            MediaParams.MIME_TYPE,
+            MediaParams.RELATIVE_PATH,
+            MediaParams.SIZE,
+        )
     }
 }
