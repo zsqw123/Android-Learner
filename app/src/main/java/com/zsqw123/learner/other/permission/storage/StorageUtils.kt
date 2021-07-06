@@ -40,7 +40,7 @@ fun Uri.share(activity: Activity, type: String = "image/*") =
 fun File.getProviderUri(provider: String = "${storageContext.packageName}.provider"): Uri =
     FileProvider.getUriForFile(storageContext, provider, this)
 
-internal lateinit var storageContext: Application
+lateinit var storageContext: Application
 fun storageInit(application: Application) {
     storageContext = application
 }

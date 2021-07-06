@@ -6,9 +6,7 @@ import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.ArrayMap
-import com.zsqw123.learner.other.permission.storage.storageContext
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import com.zsqw123.learner.other.permission.storage.MediaParams
 
 /**
  * Author zsqw123
@@ -16,7 +14,6 @@ import kotlinx.coroutines.withContext
  * Date 2021/7/5 22:25
  */
 class AudioRead(
-    var uri: Uri,
     var name: String = "",
     var relativePath: String = "${Environment.DIRECTORY_MUSIC}/",
     var mimeType: String = "audio/*",
@@ -25,60 +22,35 @@ class AudioRead(
     var dateModified: Int = 0, // seconds
     var duration: Int = 0, // seconds
     var others: Map<String, String> = ArrayMap()
-) {
+) : MediaRead {
+    lateinit var uri: Uri
+    override fun instance(): MediaRead = AudioRead()
+
+    override fun readFromCursor(cursor: Cursor, params: Array<String>, paramIndices: IntArray): MediaRead = apply {
+        val othersMap = ArrayMap<String, String>()
+        val id = cursor.getColumnIndexOrThrow(MediaParams.ID)
+        for (i in paramIndices.indices) when (params[i]) {
+            MediaParams.ID -> uri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, cursor.getLong(id))
+            MediaParams.DISPLAY_NAME -> name = cursor.getString(paramIndices[i])
+            MediaParams.DATE_ADDED -> dateAdded = cursor.getInt(paramIndices[i])
+            MediaParams.DATE_MODIFIED -> dateModified = cursor.getInt(paramIndices[i])
+            MediaParams.DURATION -> duration = cursor.getInt(paramIndices[i])
+            MediaParams.MIME_TYPE -> mimeType = cursor.getString(paramIndices[i])
+            MediaParams.RELATIVE_PATH -> relativePath = cursor.getString(paramIndices[i])
+            MediaParams.SIZE -> size = cursor.getInt(paramIndices[i])
+            else -> othersMap[params[i]] = cursor.getString(paramIndices[i])
+        }
+        others = othersMap
+    }
+
     companion object {
-        /**
-         * @see ImageRead
-         */
         suspend fun read(
-            sortBy: String = MediaParams.DATE_MODIFIED, isAscend: Boolean = false, filter: String? = null,
-            paramsArray: Array<String> = arrayOf()
-        ): List<AudioRead> = withContext(Dispatchers.IO) {
-            val projection = arrayOf(MediaStore.Audio.Media._ID, *defParams, *paramsArray)
-            val list = arrayListOf<AudioRead>()
-            storageContext.contentResolver.query(
-                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, projection,
-                filter, null, "$sortBy ${if (isAscend) "ASC" else "DESC"}"
-            )?.use { cursor ->
-                val id = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID)
-                val indices = IntArray(projection.size) { cursor.getColumnIndexOrThrow(projection[it]) }
-                while (cursor.moveToNext())
-                    list += AudioRead(uri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, cursor.getLong(id)))
-                        .readFromCursor(cursor, projection, indices)
-            }
-            list
-        }
+            filter: String? = null, sortBy: String = MediaParams.DATE_MODIFIED, isAscend: Boolean = false, otherParams: Array<String> = arrayOf()
+        ): List<AudioRead> = MediaRead.read(AudioRead(), defParams + otherParams, filter, sortBy, isAscend)
 
-        suspend fun read(uri: Uri, otherParams: Array<String> = arrayOf()): AudioRead = withContext(Dispatchers.IO) {
-            val projection = arrayOf(MediaStore.Audio.Media._ID, *defParams, *otherParams)
-            val read = AudioRead(uri = uri)
-            storageContext.contentResolver.query(
-                uri, projection,
-                null, null, null
-            )?.use { cursor ->
-                val indices = IntArray(projection.size) { cursor.getColumnIndexOrThrow(projection[it]) }
-                cursor.moveToFirst()
-                read.readFromCursor(cursor, projection, indices)
-            }
-            read
-        }
+        suspend fun read(uri: Uri, otherParams: Array<String> = arrayOf()): AudioRead = MediaRead.read(AudioRead(), uri, defParams + otherParams)
 
-        private fun AudioRead.readFromCursor(cursor: Cursor, params: Array<String>, paramIndices: IntArray) = apply {
-            val othersMap = ArrayMap<String, String>()
-            for (i in 1 until paramIndices.size) when (params[i]) {
-                MediaParams.DISPLAY_NAME -> name = cursor.getString(paramIndices[i])
-                MediaParams.DATE_ADDED -> dateAdded = cursor.getInt(paramIndices[i])
-                MediaParams.DATE_MODIFIED -> dateModified = cursor.getInt(paramIndices[i])
-                MediaParams.DURATION -> duration = cursor.getInt(paramIndices[i])
-                MediaParams.MIME_TYPE -> mimeType = cursor.getString(paramIndices[i])
-                MediaParams.RELATIVE_PATH -> relativePath = cursor.getString(paramIndices[i])
-                MediaParams.SIZE -> size = cursor.getInt(paramIndices[i])
-                else -> othersMap[params[i]] = cursor.getString(paramIndices[i])
-            }
-            others = othersMap
-        }
-
-        val defParams = arrayOf(
+        private val defParams = arrayOf(
             MediaParams.DATE_ADDED,
             MediaParams.DATE_MODIFIED,
             MediaParams.DISPLAY_NAME,
@@ -88,4 +60,6 @@ class AudioRead(
             MediaParams.SIZE,
         )
     }
+
+
 }
