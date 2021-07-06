@@ -32,7 +32,7 @@ class StorageAct : AppCompatActivity() {
             val bts: Array<Pair<String, () -> Unit>> = arrayOf(
                 "ReadPic" to {
                     lifecycleScope.launch(Dispatchers.Main) {
-                        rvPic.adapter = PicRvAdapter(contentResolver.getPicUris())
+                        rvPic.adapter = PicRvAdapter(getPicUris())
                     }
                 },
                 "WritePic" to {

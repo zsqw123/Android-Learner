@@ -1,10 +1,12 @@
 package com.zsqw123.learner.other.permission.storage.read
 
 import android.content.ContentUris
+import android.database.Cursor
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.ArrayMap
+import com.zsqw123.learner.app
 import com.zsqw123.learner.other.permission.storage.storageContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -34,37 +36,53 @@ class VideoRead(
          */
         suspend fun read(
             sortBy: String = MediaParams.DATE_MODIFIED, isAscend: Boolean = false, filter: String? = null,
-            paramsArray: Array<String> = arrayOf()
+            otherParams: Array<String> = arrayOf()
         ): List<VideoRead> = withContext(Dispatchers.IO) {
-            val projection = arrayOf(MediaStore.Video.Media._ID, *defParams, *paramsArray)
+            val projection = arrayOf(MediaStore.Video.Media._ID, *defParams, *otherParams)
             val list = arrayListOf<VideoRead>()
             storageContext.contentResolver.query(
                 MediaStore.Video.Media.EXTERNAL_CONTENT_URI, projection,
                 filter, null, "$sortBy ${if (isAscend) "ASC" else "DESC"}"
             )?.use { cursor ->
                 val id = cursor.getColumnIndexOrThrow(MediaStore.Video.Media._ID)
-                val others = ArrayMap<String, String>()
                 val indices = IntArray(projection.size) { cursor.getColumnIndexOrThrow(projection[it]) }
-                while (cursor.moveToNext()) {
-                    val read = VideoRead(uri = ContentUris.withAppendedId(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, cursor.getLong(id)))
-                    for (i in 1 until indices.size) when (projection[i]) {
-                        MediaParams.DISPLAY_NAME -> read.name = cursor.getString(indices[i])
-                        MediaParams.DATE_ADDED -> read.dateAdded = cursor.getInt(indices[i])
-                        MediaParams.DATE_MODIFIED -> read.dateModified = cursor.getInt(indices[i])
-                        MediaParams.DURATION -> read.duration = cursor.getInt(indices[i])
-                        MediaParams.HEIGHT -> read.height = cursor.getInt(indices[i])
-                        MediaParams.MIME_TYPE -> read.mimeType = cursor.getString(indices[i])
-                        MediaParams.ORIENTATION -> read.orientation
-                        MediaParams.RELATIVE_PATH -> read.relativePath = cursor.getString(indices[i])
-                        MediaParams.SIZE -> read.size = cursor.getInt(indices[i])
-                        MediaParams.WIDTH -> read.width = cursor.getInt(indices[i])
-                        else -> others[projection[i]] = cursor.getString(indices[i])
-                    }
-                    read.others = others
-                    list += read
-                }
+                while (cursor.moveToNext())
+                    list += VideoRead(uri = ContentUris.withAppendedId(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, cursor.getLong(id)))
+                        .readFromCursor(cursor, projection, indices)
             }
-            return@withContext list
+            list
+        }
+
+        suspend fun read(uri: Uri, otherParams: Array<String> = arrayOf()): VideoRead = withContext(Dispatchers.IO) {
+            val projection = arrayOf(MediaStore.Video.Media._ID, *defParams, *otherParams)
+            val read = VideoRead(uri = uri)
+            storageContext.contentResolver.query(
+                uri, projection,
+                null, null, null
+            )?.use { cursor ->
+                val indices = IntArray(projection.size) { cursor.getColumnIndexOrThrow(projection[it]) }
+                cursor.moveToFirst()
+                read.readFromCursor(cursor, projection, indices)
+            }
+            read
+        }
+
+        private fun VideoRead.readFromCursor(cursor: Cursor, params: Array<String>, paramIndices: IntArray) = apply {
+            val othersMap = ArrayMap<String, String>()
+            for (i in 1 until paramIndices.size) when (params[i]) {
+                MediaParams.DISPLAY_NAME -> name = cursor.getString(paramIndices[i])
+                MediaParams.DATE_ADDED -> dateAdded = cursor.getInt(paramIndices[i])
+                MediaParams.DATE_MODIFIED -> dateModified = cursor.getInt(paramIndices[i])
+                MediaParams.DURATION -> duration = cursor.getInt(paramIndices[i])
+                MediaParams.HEIGHT -> height = cursor.getInt(paramIndices[i])
+                MediaParams.MIME_TYPE -> mimeType = cursor.getString(paramIndices[i])
+                MediaParams.ORIENTATION -> orientation
+                MediaParams.RELATIVE_PATH -> relativePath = cursor.getString(paramIndices[i])
+                MediaParams.SIZE -> size = cursor.getInt(paramIndices[i])
+                MediaParams.WIDTH -> width = cursor.getInt(paramIndices[i])
+                else -> othersMap[params[i]] = cursor.getString(paramIndices[i])
+            }
+            others = othersMap
         }
 
         val defParams = arrayOf(
@@ -80,4 +98,5 @@ class VideoRead(
             MediaParams.WIDTH,
         )
     }
+
 }

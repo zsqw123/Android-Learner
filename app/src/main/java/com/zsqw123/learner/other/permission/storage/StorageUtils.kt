@@ -1,37 +1,46 @@
 package com.zsqw123.learner.other.permission.storage
 
+import android.app.Activity
 import android.app.Application
-import android.content.*
+import android.content.Intent
 import android.net.Uri
 import android.os.ParcelFileDescriptor
-import android.provider.MediaStore
+import androidx.core.content.FileProvider
+import com.zsqw123.learner.other.permission.storage.read.ImageRead
+import com.zsqw123.learner.printParams
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.util.*
+import java.io.File
 
 /**
  * Author zsqw123
  * Create by damyjy
  * Date 2021/7/4 12:39
  */
-suspend fun ContentResolver.getPicUris(): List<Uri> = withContext(Dispatchers.IO) {
-    val projection = arrayOf(MediaStore.Images.Media._ID)
+suspend fun getPicUris(): List<Uri> = withContext(Dispatchers.IO) {
     val list = arrayListOf<Uri>()
-    query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection, null, null, "${MediaStore.Images.Media.DATE_MODIFIED} DESC")?.use { cursor ->
-        val id = cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID)
-        while (cursor.moveToNext()) {
-            list += ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, cursor.getString(id).toLong())
-        }
+    ImageRead.read().onEach {
+        it.printParams()
+        list += it.uri
     }
-    return@withContext list
+    list
 }
-
-fun Uri.delete() = storageContext.contentResolver.delete(this, null, null)
 
 val Uri.fileDescriptor: ParcelFileDescriptor?
     get() = storageContext.contentResolver.openFileDescriptor(this, "w")
 
-lateinit var storageContext: Application
+fun Uri.delete() = storageContext.contentResolver.delete(this, null, null)
+
+fun Uri.share(activity: Activity, type: String = "image/*") =
+    activity.startActivity(Intent(Intent.ACTION_SEND).apply {
+        setType(type)
+        putExtra(Intent.EXTRA_STREAM, this@share)
+    })
+
+fun File.getProviderUri(provider: String = "${storageContext.packageName}.provider"): Uri =
+    FileProvider.getUriForFile(storageContext, provider, this)
+
+internal lateinit var storageContext: Application
 fun storageInit(application: Application) {
     storageContext = application
 }

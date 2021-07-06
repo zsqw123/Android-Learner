@@ -11,6 +11,7 @@ import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import kotlin.reflect.KClass
+import kotlin.reflect.full.declaredMemberProperties
 
 inline fun <reified T> Activity.start(vararg pairs: Pair<String, Any>) {
     startActivity(Intent(this, T::class.java).apply { putExtras(bundleOf(*pairs)) })
@@ -41,4 +42,12 @@ open class ButtonRvAdapter(val count: Int, val event: (Int, MaterialButton) -> U
     }
 
     inner class MainHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+}
+
+inline fun <reified T : Any> T.printParams() {
+    val map = hashMapOf<String, String>()
+    T::class.declaredMemberProperties.forEach {
+        map[it.name] = it.get(this).toString()
+    }
+    println(map)
 }

@@ -52,7 +52,7 @@ class FileSave(
          * 涉及到了新建文件, 强烈建议此方法在子线程中执行, 这里没有强制
          * @see WorkerThread
          */
-        operator fun invoke(string: String, charset: Charset = Charsets.UTF_8) = invoke(string.toByteArray(charset))
+        operator fun invoke(string: String, charset: Charset = Charsets.UTF_8) = FileSave(string.toByteArray(charset))
 
         /**
          * 涉及到了新建文件, 强烈建议此方法在子线程中执行, 这里没有强制
@@ -90,5 +90,6 @@ class FileSave(
     }
 
     @IntDef(TYPE_AUDIO, TYPE_VIDEO, TYPE_FILE, TYPE_DOWNLOAD)
+    @Retention(AnnotationRetention.SOURCE)
     annotation class TypeInt
 }

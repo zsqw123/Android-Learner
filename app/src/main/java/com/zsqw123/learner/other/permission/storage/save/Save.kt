@@ -57,10 +57,5 @@ interface Save {
             }
             return@withContext true
         }
-
-        suspend fun commonMediaSave(
-            name: String, mainPath: String, subPath: String, contentUri: Uri,
-            file: File, contentValues: ContentValues
-        ): Boolean = commonMediaSave(name, mainPath, subPath, contentUri, file.inputStream(), contentValues)
     }
 }
