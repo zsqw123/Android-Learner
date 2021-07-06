@@ -3,6 +3,7 @@ package com.zsqw123.learner.other.permission.storage
 import android.app.Application
 import android.content.*
 import android.net.Uri
+import android.os.ParcelFileDescriptor
 import android.provider.MediaStore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -24,6 +25,11 @@ suspend fun ContentResolver.getPicUris(): List<Uri> = withContext(Dispatchers.IO
     }
     return@withContext list
 }
+
+fun Uri.delete() = storageContext.contentResolver.delete(this, null, null)
+
+val Uri.fileDescriptor: ParcelFileDescriptor?
+    get() = storageContext.contentResolver.openFileDescriptor(this, "w")
 
 lateinit var storageContext: Application
 fun storageInit(application: Application) {

@@ -18,7 +18,7 @@ class AudioRead(
     var uri: Uri,
     var name: String = "",
     var relativePath: String = "${Environment.DIRECTORY_MUSIC}/",
-    var mimeType: String = "*/*",
+    var mimeType: String = "audio/*",
     var size: Int = 0, // 文件尺寸 bytes
     var dateAdded: Int = 0, // seconds
     var dateModified: Int = 0, // seconds

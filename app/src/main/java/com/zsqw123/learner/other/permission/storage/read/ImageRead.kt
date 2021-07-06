@@ -1,7 +1,6 @@
 package com.zsqw123.learner.other.permission.storage.read
 
 import android.content.ContentUris
-import android.media.Image
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
@@ -19,7 +18,7 @@ class ImageRead(
     var uri: Uri,
     var name: String = "",
     var relativePath: String = "${Environment.DIRECTORY_PICTURES}/",
-    var mimeType: String = "*/*",
+    var mimeType: String = "image/*",
     var size: Int = 0, // 文件尺寸 bytes
     var dateAdded: Int = 0, //seconds
     var dateModified: Int = 0, //seconds

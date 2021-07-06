@@ -52,12 +52,6 @@ class StorageAct : AppCompatActivity() {
                 v.text = bts[i].first
                 v.setOnClickListener { bts[i].second() }
             }
-
-//            btReadPic.setOnClickListener {
-//                lifecycleScope.launch(Dispatchers.Main) {
-//                    rvPic.adapter = PicRvAdapter(contentResolver.getPicUris())
-//                }
-//            }
         }
     }
 }

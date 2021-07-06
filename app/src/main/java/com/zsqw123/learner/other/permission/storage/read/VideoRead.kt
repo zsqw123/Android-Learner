@@ -18,7 +18,7 @@ class VideoRead(
     var uri: Uri,
     var name: String = "",
     var relativePath: String = "${Environment.DIRECTORY_MOVIES}/",
-    var mimeType: String = "*/*",
+    var mimeType: String = "video/*",
     var size: Int = 0, // 文件尺寸 bytes
     var dateAdded: Int = 0, // seconds
     var dateModified: Int = 0, // seconds
@@ -44,7 +44,6 @@ class VideoRead(
             )?.use { cursor ->
                 val id = cursor.getColumnIndexOrThrow(MediaStore.Video.Media._ID)
                 val others = ArrayMap<String, String>()
-
                 val indices = IntArray(projection.size) { cursor.getColumnIndexOrThrow(projection[it]) }
                 while (cursor.moveToNext()) {
                     val read = VideoRead(uri = ContentUris.withAppendedId(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, cursor.getLong(id)))

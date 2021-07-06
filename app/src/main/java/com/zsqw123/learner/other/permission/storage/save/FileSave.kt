@@ -78,7 +78,7 @@ class FileSave(
             inputStream = inputStream ?: suspendFile?.await()?.inputStream() ?: return@withContext false
             Save.commonMediaSave(
                 name, mainPath, subPath,
-                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.Q) MediaStore.Downloads.EXTERNAL_CONTENT_URI else MediaStore.Files.getContentUri("external"),
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) MediaStore.Downloads.EXTERNAL_CONTENT_URI else MediaStore.Files.getContentUri("external"),
                 inputStream!!, contentValues ?: ContentValues().apply {
                     put(MediaStore.MediaColumns.DISPLAY_NAME, name)
                     put(MediaStore.MediaColumns.MIME_TYPE, mimeType)
