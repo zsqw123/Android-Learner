@@ -37,7 +37,7 @@ class StorageAct : AppCompatActivity() {
                 },
                 "WritePic" to {
                     lifecycleScope.launch {
-                        val res = ImageSave(getSquareBitmap(resources, 200.dp.toInt())).save()
+                        val res = ImageSave(getSquareBitmap(resources, 200.dp.toInt())).save(subPath = "666/777")
                         if (res) toast("保存成功") else toast("保存失败")
                     }
                 },

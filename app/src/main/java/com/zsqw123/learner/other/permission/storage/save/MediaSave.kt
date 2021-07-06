@@ -19,7 +19,13 @@ import java.util.*
  * Create by damyjy
  * Date 2021/7/5 9:39
  */
-interface Save {
+interface MediaSave {
+    /**
+     * 假设图片要保存到 /Pictures/App/Pic/1.jpg, 那么:
+     * @param name 1.jpg
+     * @param subPath App/Pic
+     * @return Boolean
+     */
     suspend fun save(name: String = Date().time.toString(), subPath: String = ""): Boolean
 
     companion object {

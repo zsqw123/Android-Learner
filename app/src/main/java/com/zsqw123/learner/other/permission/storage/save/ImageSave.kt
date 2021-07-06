@@ -22,7 +22,7 @@ class ImageSave(
     var mimeType: String = "image/jpeg",
     var description: String = "",
     var contentValues: ContentValues? = null,
-) : Save {
+) : MediaSave {
     var suspendFile: Deferred<File>? = null
 
     companion object {
@@ -50,7 +50,7 @@ class ImageSave(
     override suspend fun save(name: String, subPath: String): Boolean = withContext(Dispatchers.IO) {
         try {
             inputStream = inputStream ?: suspendFile?.await()?.inputStream() ?: return@withContext false
-            Save.commonMediaSave(
+            MediaSave.commonMediaSave(
                 name, Environment.DIRECTORY_PICTURES, subPath, MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 inputStream!!, contentValues ?: ContentValues().apply {
                     put(MediaStore.Images.Media.DISPLAY_NAME, name)
