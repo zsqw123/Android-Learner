@@ -1,25 +1,24 @@
 package com.zsqw123.learner.other.permission.storage.save
 
 import android.content.ContentValues
-import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
 import androidx.annotation.WorkerThread
 import com.zsqw123.learner.other.permission.storage.MediaType
+import com.zsqw123.learner.other.permission.storage.mediaUris
 import com.zsqw123.learner.other.permission.storage.storageContext
 import kotlinx.coroutines.*
 import java.io.File
 import java.io.InputStream
 import java.nio.charset.Charset
 import java.util.*
-import kotlin.random.Random
 
 /**
  * @property type Int 类型, 详见 TypeInt
  * @property mainPath String 文件夹路径,
  * 如下载文件夹路径是 Dowload, 参见 Environment.STANDARD_DIRECTORIES
- * @property mimeType String 不必要, 系统其实会自己生成
- * @property contentValues 自定义你的 contentValues 参数
+ * @property mimeType String 不必要, 事实上 mimeType 只会作为参考,
+ * 仅在不能通过保存文件名识别出文件类型的时候才会用到
  *
  * @see MediaType
  * @see Environment
@@ -33,7 +32,6 @@ open class FileSave(
     @MediaType var type: Int = MediaType.TYPE_DOWNLOAD,
     var mainPath: String = Environment.DIRECTORY_DOWNLOADS,
     var mimeType: String = "",
-    var contentValues: ContentValues? = null,
 ) : MediaSave {
     var suspendFile: Deferred<File>? = null
 
@@ -51,29 +49,23 @@ open class FileSave(
          * @see WorkerThread
          */
         operator fun invoke(bytes: ByteArray): FileSave {
-            var cache = File(storageContext.cacheDir, Date().time.toString())
-            while (cache.exists())
-                cache = File(storageContext.cacheDir, (Date().time + Random.nextInt(1 shl 30)).toString())
             val save = FileSave()
             save.suspendFile = GlobalScope.async(Dispatchers.IO) {
-                cache.createNewFile()
-                cache.writeBytes(bytes)
-                return@async cache
+                MediaSave.dupCreateFile(storageContext.cacheDir, Date().time.toString()).apply { writeBytes(bytes) }
             }
             return save
         }
-
     }
 
-    override suspend fun save(name: String, subPath: String): Boolean = withContext(Dispatchers.IO) {
+    override suspend fun save(name: String, subPath: String, contentValues: ContentValues): Boolean = withContext(Dispatchers.IO) {
         try {
             inputStream = inputStream ?: suspendFile?.await()?.inputStream() ?: return@withContext false
             MediaSave.commonMediaSave(
-                name, mainPath, subPath,
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) MediaStore.Downloads.EXTERNAL_CONTENT_URI else MediaStore.Files.getContentUri("external"),
-                inputStream!!, contentValues ?: ContentValues().apply {
+                name, mainPath, subPath, mediaUris[type],
+                inputStream!!, ContentValues().apply {
                     put(MediaStore.MediaColumns.DISPLAY_NAME, name)
                     put(MediaStore.MediaColumns.MIME_TYPE, mimeType)
+                    putAll(contentValues)
                 })
         } catch (e: Exception) {
             e.printStackTrace()

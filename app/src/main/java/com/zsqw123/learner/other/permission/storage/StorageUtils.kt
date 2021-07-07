@@ -11,6 +11,7 @@ import com.zsqw123.learner.printParams
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
+import java.net.URLConnection
 
 /**
  * Author zsqw123
@@ -39,6 +40,11 @@ fun Uri.share(activity: Activity, type: String = "image/*") =
 
 fun File.getProviderUri(provider: String = "${storageContext.packageName}.provider"): Uri =
     FileProvider.getUriForFile(storageContext, provider, this)
+
+object typeMap {
+    operator fun get(file: File): String = URLConnection.getFileNameMap().getContentTypeFor(file.name) ?: ""
+    operator fun get(fileName: String): String = get(File(fileName))
+}
 
 lateinit var storageContext: Application
 fun storageInit(application: Application) {

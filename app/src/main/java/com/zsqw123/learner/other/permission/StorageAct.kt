@@ -9,8 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.zsqw123.learner.ButtonRvAdapter
 import com.zsqw123.learner.databinding.ActPermBinding
 import com.zsqw123.learner.other.permission.storage.getPicUris
+import com.zsqw123.learner.other.permission.storage.save.AudioSave
 import com.zsqw123.learner.other.permission.storage.save.FileSave
 import com.zsqw123.learner.other.permission.storage.save.ImageSave
+import com.zsqw123.learner.other.permission.storage.save.VideoSave
 import com.zsqw123.learner.toast
 import com.zsqw123.learner.view.dp
 import com.zsqw123.learner.view.getSquareBitmap
@@ -37,14 +39,26 @@ class StorageAct : AppCompatActivity() {
                 },
                 "WritePic" to {
                     lifecycleScope.launch {
-                        val res = ImageSave(getSquareBitmap(resources, 200.dp.toInt())).save(subPath = "666/777")
-                        if (res) toast("保存成功") else toast("保存失败")
+                        val res = ImageSave(getSquareBitmap(resources, 200.dp.toInt())).save("1.jpg", "666/777")
+                        if (res) toast("1.jpg 保存成功") else toast("1.jpg 保存失败")
                     }
                 },
                 "WriteFile" to {
                     lifecycleScope.launch {
                         val res = FileSave("hhhhhc").save()
-                        if (res) toast("保存成功") else toast("保存失败")
+                        if (res) toast("File 保存成功") else toast("File 保存失败")
+                    }
+                },
+                "WriteAudio" to {
+                    lifecycleScope.launch {
+                        val res = AudioSave("hhhhhc".toByteArray()).save("2.mp3")
+                        if (res) toast("2.mp3 保存成功") else toast("2.mp3 保存失败")
+                    }
+                },
+                "WriteVideo" to {
+                    lifecycleScope.launch {
+                        val res = VideoSave("hhhhhc".toByteArray()).save("3.mp4")
+                        if (res) toast("3.mp4 保存成功") else toast("3.mp4 保存失败")
                     }
                 },
             )

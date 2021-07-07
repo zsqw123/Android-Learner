@@ -5,23 +5,26 @@ import android.graphics.Bitmap
 import android.os.Environment
 import android.provider.MediaStore
 import androidx.annotation.WorkerThread
+import com.zsqw123.learner.other.permission.storage.MediaParams
 import com.zsqw123.learner.other.permission.storage.storageContext
 import kotlinx.coroutines.*
 import java.io.File
 import java.io.InputStream
 import java.util.*
-import kotlin.random.Random
 
 /**
  * Author zsqw123
  * Create by damyjy
  * Date 2021/7/5 12:59
  */
+/**
+ * 事实上 mimeType 只会作为参考,
+ * 仅在不能通过保存文件名识别出文件类型的时候才会用到
+ */
 class ImageSave(
     var inputStream: InputStream? = null,
-    var mimeType: String = "image/jpeg",
+    var mimeType: String = "",
     var description: String = "",
-    var contentValues: ContentValues? = null,
 ) : MediaSave {
     var suspendFile: Deferred<File>? = null
 
@@ -33,29 +36,26 @@ class ImageSave(
          * @see WorkerThread
          */
         operator fun invoke(bitmap: Bitmap, format: Bitmap.CompressFormat = Bitmap.CompressFormat.JPEG, quality: Int = 100): ImageSave {
-            var cache = File(storageContext.cacheDir, Date().time.toString())
-            while (cache.exists())
-                cache = File(storageContext.cacheDir, (Date().time + Random.nextInt(1 shl 30)).toString())
             val save = ImageSave()
             save.suspendFile = GlobalScope.async(Dispatchers.IO) {
-                cache.createNewFile()
-                bitmap.compress(format, quality, cache.outputStream())
-                cache
+                MediaSave.dupCreateFile(storageContext.cacheDir, "${Date().time}.jpg").apply {
+                    bitmap.compress(format, quality, outputStream())
+                }
             }
             return save
         }
     }
 
-    suspend fun save() = save(Date().time.toString() + ".jpg", "")
-    override suspend fun save(name: String, subPath: String): Boolean = withContext(Dispatchers.IO) {
+    override suspend fun save(name: String, subPath: String, contentValues: ContentValues): Boolean = withContext(Dispatchers.IO) {
         try {
             inputStream = inputStream ?: suspendFile?.await()?.inputStream() ?: return@withContext false
             MediaSave.commonMediaSave(
                 name, Environment.DIRECTORY_PICTURES, subPath, MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                inputStream!!, contentValues ?: ContentValues().apply {
-                    put(MediaStore.Images.Media.DISPLAY_NAME, name)
-                    put(MediaStore.Images.Media.MIME_TYPE, mimeType)
+                inputStream!!, ContentValues().apply {
+                    put(MediaParams.DISPLAY_NAME, name)
+                    put(MediaParams.MIME_TYPE, mimeType)
                     put(MediaStore.Images.Media.DESCRIPTION, description)
+                    putAll(contentValues)
                 })
         } catch (e: Exception) {
             e.printStackTrace()
