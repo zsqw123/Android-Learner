@@ -2,7 +2,6 @@ package com.zsqw123.learner.other.permission.storage.read
 
 import android.database.Cursor
 import android.net.Uri
-import android.provider.MediaStore
 import com.zsqw123.learner.other.permission.storage.MediaParams
 import com.zsqw123.learner.other.permission.storage.MediaType.Companion.TYPE_AUDIO
 import com.zsqw123.learner.other.permission.storage.MediaType.Companion.TYPE_IMAGE
@@ -18,11 +17,6 @@ import kotlinx.coroutines.withContext
  * Date 2021/7/6 20:51
  */
 interface MediaRead {
-    /**
-     * 请不要尝试使用这种方式实例化, 这很危险
-     * @return MediaRead
-     */
-    fun instance(): MediaRead
     fun readFromCursor(cursor: Cursor, params: Array<String>, paramIndices: IntArray): MediaRead
 
     companion object {
@@ -37,7 +31,7 @@ interface MediaRead {
          * 如: "${MediaParams.HEIGHT} >= 100" 筛选高度大于 100 像素的 Media
          * 如果为空, 则不筛选
          *
-         * @param paramsArray Array<String>:
+         * @param params Array<String>:
          * 传入要获取的参数, 如: arrayOf(MediaParams.DISPLAY_NAME, MediaParams.SIZE),
          * 如果为空, 则只读取 Uri.
          *
@@ -48,22 +42,27 @@ interface MediaRead {
          * @see android.provider.MediaStore.Images.Media
          */
         suspend inline fun <reified M : MediaRead> read(
-            instance: M, params: Array<String>, filter: String? = null,
-            sortBy: String = MediaParams.DATE_MODIFIED, isAscend: Boolean = false
+            params: Array<String>, filter: String? = null, sortBy: String = MediaParams.DATE_MODIFIED,
+            isAscend: Boolean = false
         ): List<M> = withContext(Dispatchers.IO) {
             val list = ArrayList<M>()
-            val queryUri = when (instance) {
-                is ImageRead -> mediaUris[TYPE_IMAGE]
-                is VideoRead -> mediaUris[TYPE_VIDEO]
-                is AudioRead -> mediaUris[TYPE_AUDIO]
+            val type = when (M::class.simpleName) {
+                ImageRead::class.simpleName -> TYPE_IMAGE
+                VideoRead::class.simpleName -> TYPE_VIDEO
+                AudioRead::class.simpleName -> TYPE_AUDIO
                 else -> throw IllegalArgumentException("read type must be MediaType")
             }
             storageContext.contentResolver.query(
-                queryUri, params, filter, null, "$sortBy ${if (isAscend) "ASC" else "DESC"}"
+                mediaUris[type], params, filter, null, "$sortBy ${if (isAscend) "ASC" else "DESC"}"
             )?.use { cursor ->
                 val indices = IntArray(params.size) { cursor.getColumnIndexOrThrow(params[it]) }
                 while (cursor.moveToNext())
-                    list += instance.instance().readFromCursor(cursor, params, indices) as M
+                    list += when (type) {
+                        TYPE_IMAGE -> ImageRead()
+                        TYPE_VIDEO -> VideoRead()
+                        TYPE_AUDIO -> AudioRead()
+                        else -> throw IllegalArgumentException("read type must be MediaType")
+                    }.readFromCursor(cursor, params, indices) as M
             }
             list
         }
@@ -71,7 +70,13 @@ interface MediaRead {
         /**
          * 使用 uri 读取读取单个文件
          */
-        suspend inline fun <M : MediaRead> read(instance: M, uri: Uri, params: Array<String>): M = withContext(Dispatchers.IO) {
+        suspend inline fun <reified M : MediaRead> read(uri: Uri, params: Array<String>): M = withContext(Dispatchers.IO) {
+            val instance = when (M::class.simpleName) {
+                ImageRead::class.simpleName -> ImageRead()
+                VideoRead::class.simpleName -> VideoRead()
+                AudioRead::class.simpleName -> AudioRead()
+                else -> throw IllegalArgumentException("read type must be MediaType")
+            } as M
             storageContext.contentResolver.query(uri, params, null, null, null)?.use { cursor ->
                 val indices = IntArray(params.size) { cursor.getColumnIndexOrThrow(params[it]) }
                 cursor.moveToFirst()

@@ -27,7 +27,6 @@ class VideoRead(
     var others: Map<String, String> = ArrayMap()
 ) : MediaRead {
     lateinit var uri: Uri
-    override fun instance() = VideoRead()
     override fun readFromCursor(cursor: Cursor, params: Array<String>, paramIndices: IntArray) = apply {
         val othersMap = ArrayMap<String, String>()
         val id = cursor.getColumnIndexOrThrow(MediaParams.ID)
@@ -51,9 +50,9 @@ class VideoRead(
     companion object {
         suspend fun read(
             filter: String? = null, sortBy: String = MediaParams.DATE_MODIFIED, isAscend: Boolean = false, otherParams: Array<String> = arrayOf()
-        ): List<VideoRead> = MediaRead.read(VideoRead(), defParams + otherParams, filter, sortBy, isAscend)
+        ): List<VideoRead> = MediaRead.read(defParams + otherParams, filter, sortBy, isAscend)
 
-        suspend fun read(uri: Uri, otherParams: Array<String> = arrayOf()): VideoRead = MediaRead.read(VideoRead(), uri, defParams + otherParams)
+        suspend fun read(uri: Uri, otherParams: Array<String> = arrayOf()): VideoRead = MediaRead.read(uri, defParams + otherParams)
 
         private val defParams = arrayOf(
             MediaParams.DATE_ADDED,

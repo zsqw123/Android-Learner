@@ -24,7 +24,6 @@ class AudioRead(
     var others: Map<String, String> = ArrayMap()
 ) : MediaRead {
     lateinit var uri: Uri
-    override fun instance(): MediaRead = AudioRead()
 
     override fun readFromCursor(cursor: Cursor, params: Array<String>, paramIndices: IntArray): MediaRead = apply {
         val othersMap = ArrayMap<String, String>()
@@ -46,9 +45,9 @@ class AudioRead(
     companion object {
         suspend fun read(
             filter: String? = null, sortBy: String = MediaParams.DATE_MODIFIED, isAscend: Boolean = false, otherParams: Array<String> = arrayOf()
-        ): List<AudioRead> = MediaRead.read(AudioRead(), defParams + otherParams, filter, sortBy, isAscend)
+        ): List<AudioRead> = MediaRead.read(defParams + otherParams, filter, sortBy, isAscend)
 
-        suspend fun read(uri: Uri, otherParams: Array<String> = arrayOf()): AudioRead = MediaRead.read(AudioRead(), uri, defParams + otherParams)
+        suspend fun read(uri: Uri, otherParams: Array<String> = arrayOf()): AudioRead = MediaRead.read(uri, defParams + otherParams)
 
         private val defParams = arrayOf(
             MediaParams.DATE_ADDED,

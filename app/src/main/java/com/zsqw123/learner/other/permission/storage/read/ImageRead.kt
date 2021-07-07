@@ -26,7 +26,6 @@ class ImageRead(
     var others: Map<String, String> = ArrayMap()
 ) : MediaRead {
     lateinit var uri: Uri
-    override fun instance() = ImageRead()
     override fun readFromCursor(cursor: Cursor, params: Array<String>, paramIndices: IntArray) = apply {
         val othersMap = ArrayMap<String, String>()
         val id = cursor.getColumnIndexOrThrow(MediaParams.ID)
@@ -49,9 +48,9 @@ class ImageRead(
     companion object {
         suspend fun read(
             filter: String? = null, sortBy: String = MediaParams.DATE_MODIFIED, isAscend: Boolean = false, otherParams: Array<String> = arrayOf()
-        ): List<ImageRead> = MediaRead.read(ImageRead(), defParams + otherParams, filter, sortBy, isAscend)
+        ): List<ImageRead> = MediaRead.read(defParams + otherParams, filter, sortBy, isAscend)
 
-        suspend fun read(uri: Uri, otherParams: Array<String> = arrayOf()): ImageRead = MediaRead.read(ImageRead(), uri, defParams + otherParams)
+        suspend fun read(uri: Uri, otherParams: Array<String> = arrayOf()): ImageRead = MediaRead.read(uri, defParams + otherParams)
 
         private val defParams = arrayOf(
             MediaParams.ID,
