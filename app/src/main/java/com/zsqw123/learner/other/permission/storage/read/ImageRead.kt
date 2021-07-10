@@ -21,7 +21,6 @@ class ImageRead(
     var dateModified: Int = 0, //seconds
     var width: Int = 0,
     var height: Int = 0,
-    var orientation: Int = 0, // 0 90 180 270
     var others: Map<String, String> = ArrayMap()
 ) : MediaRead {
     lateinit var uri: Uri
@@ -35,7 +34,6 @@ class ImageRead(
             MediaParams.DATE_MODIFIED -> dateModified = cursor.getInt(paramIndices[i])
             MediaParams.HEIGHT -> height = cursor.getInt(paramIndices[i])
             MediaParams.MIME_TYPE -> mimeType = cursor.getString(paramIndices[i])
-            MediaParams.ORIENTATION -> orientation
             MediaParams.SIZE -> size = cursor.getInt(paramIndices[i])
             MediaParams.WIDTH -> width = cursor.getInt(paramIndices[i])
             else -> othersMap[params[i]] = cursor.getString(paramIndices[i])
@@ -57,7 +55,6 @@ class ImageRead(
             MediaParams.DISPLAY_NAME,
             MediaParams.HEIGHT,
             MediaParams.MIME_TYPE,
-            MediaParams.ORIENTATION,
             MediaParams.SIZE,
             MediaParams.WIDTH,
         )
