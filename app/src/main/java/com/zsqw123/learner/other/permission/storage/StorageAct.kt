@@ -1,4 +1,4 @@
-package com.zsqw123.learner.other.permission
+package com.zsqw123.learner.other.permission.storage
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.zsqw123.learner.ButtonRvAdapter
 import com.zsqw123.learner.databinding.ActPermBinding
-import com.zsqw123.learner.other.permission.storage.getPicUris
 import com.zsqw123.learner.other.permission.storage.save.AudioSave
 import com.zsqw123.learner.other.permission.storage.save.FileSave
 import com.zsqw123.learner.other.permission.storage.save.ImageSave

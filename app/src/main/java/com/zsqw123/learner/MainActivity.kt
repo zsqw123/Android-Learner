@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.zsqw123.learner.databinding.ActivityMainBinding
 import com.zsqw123.learner.other.broadcast.BroadcastActivity
-import com.zsqw123.learner.other.permission.StorageAct
+import com.zsqw123.learner.other.permission.storage.StorageAct
 import com.zsqw123.learner.other.simpleglide.SimpleGlideActivity
 import com.zsqw123.learner.other.test.TestActivity
 import com.zsqw123.learner.view.anim.AnimActivity

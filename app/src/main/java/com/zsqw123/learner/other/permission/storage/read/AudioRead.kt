@@ -15,7 +15,6 @@ import com.zsqw123.learner.other.permission.storage.MediaParams
  */
 class AudioRead(
     var name: String = "",
-    var relativePath: String = "${Environment.DIRECTORY_MUSIC}/",
     var mimeType: String = "audio/*",
     var size: Int = 0, // 文件尺寸 bytes
     var dateAdded: Int = 0, // seconds
@@ -35,7 +34,6 @@ class AudioRead(
             MediaParams.DATE_MODIFIED -> dateModified = cursor.getInt(paramIndices[i])
             MediaParams.DURATION -> duration = cursor.getInt(paramIndices[i])
             MediaParams.MIME_TYPE -> mimeType = cursor.getString(paramIndices[i])
-            MediaParams.RELATIVE_PATH -> relativePath = cursor.getString(paramIndices[i])
             MediaParams.SIZE -> size = cursor.getInt(paramIndices[i])
             else -> othersMap[params[i]] = cursor.getString(paramIndices[i])
         }
@@ -55,10 +53,7 @@ class AudioRead(
             MediaParams.DISPLAY_NAME,
             MediaParams.DURATION,
             MediaParams.MIME_TYPE,
-            MediaParams.RELATIVE_PATH,
             MediaParams.SIZE,
         )
     }
-
-
 }

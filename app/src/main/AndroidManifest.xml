@@ -39,7 +39,7 @@
         <activity android:name=".other.simpleglide.SimpleGlideActivity" />
         <activity android:name=".other.broadcast.BroadcastActivity" />
         <activity android:name=".other.test.TestActivity" />
-        <activity android:name=".other.permission.StorageAct" />
+        <activity android:name=".other.permission.storage.StorageAct" />
 
         <service android:name=".MainService" />
     </application>

@@ -1,4 +1,4 @@
-package com.zsqw123.learner.other.permission
+package com.zsqw123.learner.other.permission.storage
 
 import android.net.Uri
 import android.view.ViewGroup

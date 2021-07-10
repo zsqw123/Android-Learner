@@ -15,7 +15,6 @@ import com.zsqw123.learner.other.permission.storage.MediaParams
  */
 class ImageRead(
     var name: String = "",
-    var relativePath: String = "${Environment.DIRECTORY_PICTURES}/",
     var mimeType: String = "image/*",
     var size: Int = 0, // 文件尺寸 bytes
     var dateAdded: Int = 0, //seconds
@@ -37,7 +36,6 @@ class ImageRead(
             MediaParams.HEIGHT -> height = cursor.getInt(paramIndices[i])
             MediaParams.MIME_TYPE -> mimeType = cursor.getString(paramIndices[i])
             MediaParams.ORIENTATION -> orientation
-            MediaParams.RELATIVE_PATH -> relativePath = cursor.getString(paramIndices[i])
             MediaParams.SIZE -> size = cursor.getInt(paramIndices[i])
             MediaParams.WIDTH -> width = cursor.getInt(paramIndices[i])
             else -> othersMap[params[i]] = cursor.getString(paramIndices[i])
@@ -60,7 +58,6 @@ class ImageRead(
             MediaParams.HEIGHT,
             MediaParams.MIME_TYPE,
             MediaParams.ORIENTATION,
-            MediaParams.RELATIVE_PATH,
             MediaParams.SIZE,
             MediaParams.WIDTH,
         )
