@@ -1,5 +1,6 @@
 package com.zsqw123.learner.other.permission.storage
 
+import android.Manifest
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -12,6 +13,8 @@ import com.zsqw123.learner.other.permission.storage.save.AudioSave
 import com.zsqw123.learner.other.permission.storage.save.FileSave
 import com.zsqw123.learner.other.permission.storage.save.ImageSave
 import com.zsqw123.learner.other.permission.storage.save.VideoSave
+import com.zsqw123.learner.other.results.initResults
+import com.zsqw123.learner.other.results.requestPermissions
 import com.zsqw123.learner.toast
 import com.zsqw123.learner.view.dp
 import com.zsqw123.learner.view.getSquareBitmap
@@ -26,6 +29,7 @@ import kotlinx.coroutines.launch
 class StorageAct : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        initResults()
         ActPermBinding.inflate(layoutInflater).apply {
             setContentView(root)
             rvBt.layoutManager = LinearLayoutManager(this@StorageAct, RecyclerView.VERTICAL, false)
@@ -60,6 +64,11 @@ class StorageAct : AppCompatActivity() {
                         if (res) toast("3.mp4 保存成功") else toast("3.mp4 保存失败")
                     }
                 },
+                "test" to {
+                   requestPermissions(Manifest.permission.READ_EXTERNAL_STORAGE){
+                       println(it)
+                   }
+                }
             )
             rvBt.adapter = ButtonRvAdapter(bts.size) { i, v ->
                 v.text = bts[i].first
