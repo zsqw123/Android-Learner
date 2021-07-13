@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.zsqw123.learner.databinding.ActivityMainBinding
 import com.zsqw123.learner.other.broadcast.BroadcastActivity
+import com.zsqw123.learner.other.network.NetActivity
 import com.zsqw123.learner.other.permission.storage.StorageAct
 import com.zsqw123.learner.other.simpleglide.SimpleGlideActivity
 import com.zsqw123.learner.other.test.TestActivity
@@ -19,7 +20,7 @@ import kotlin.reflect.KClass
 class MainActivity : AppCompatActivity() {
     private val activityArr = arrayOf<KClass<out Activity>>(
         AnimActivity::class, ViewGroupAct::class, PhotoAct::class, TouchActivity::class, ServiceActivity::class,
-        BroadcastActivity::class, SimpleGlideActivity::class, StorageAct::class, TestActivity::class
+        BroadcastActivity::class, SimpleGlideActivity::class, StorageAct::class, NetActivity::class, TestActivity::class
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {

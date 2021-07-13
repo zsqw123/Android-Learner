@@ -65,10 +65,10 @@ class StorageAct : AppCompatActivity() {
                     }
                 },
                 "test" to {
-                   requestPermissions(Manifest.permission.READ_EXTERNAL_STORAGE){
-                       println(it)
-                   }
-                }
+                    requestPermissions(Manifest.permission.READ_EXTERNAL_STORAGE) {
+                        println(it)
+                    }
+                },
             )
             rvBt.adapter = ButtonRvAdapter(bts.size) { i, v ->
                 v.text = bts[i].first

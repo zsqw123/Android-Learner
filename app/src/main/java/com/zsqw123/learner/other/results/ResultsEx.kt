@@ -91,8 +91,8 @@ fun ActivityResultCaller.createDocument(defaultName: String, callback: (Uri) -> 
 // 7
 @Suppress("UNCHECKED_CAST")
 fun ActivityResultCaller.openDocuments(vararg mimeType: String, callback: (List<Uri>) -> Unit) {
-    pendingResults[6] = { callback(it as List<Uri>) }
-    (pendingLaunches[6] as ActivityResultLauncher<Array<out String>>).launch(mimeType)
+    pendingResults[7] = { callback(it as List<Uri>) }
+    (pendingLaunches[7] as ActivityResultLauncher<Array<out String>>).launch(mimeType)
 }
 
 // 8
