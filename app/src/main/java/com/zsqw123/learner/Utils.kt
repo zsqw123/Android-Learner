@@ -23,15 +23,15 @@ fun Activity.start(clazz: Class<out Activity>, vararg pairs: Pair<String, Any>) 
 
 fun toast(string: String, context: Context = app) = Toast.makeText(context, string, Toast.LENGTH_SHORT).show()
 
-fun Any?.prl() = println(this)
-
-class ButtonRvActivtyAdapter(private val activity: Activity, private val arr: Array<KClass<out Activity>>) :
+class ButtonRvActivtyAdapter(private val activity: Activity, private val arr: ArrayList<KClass<out Activity>>) :
     ButtonRvAdapter(arr.size, { i, v ->
         v.text = arr[i].java.simpleName
         v.setOnClickListener { activity.start(arr[i].java) }
-    })
+    }) {
+    override fun getItemCount(): Int = arr.size
+}
 
-open class ButtonRvAdapter(val count: Int, val event: (Int, MaterialButton) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder?>() {
+open class ButtonRvAdapter(private val count: Int, val event: (Int, MaterialButton) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder?>() {
     override fun getItemCount(): Int = count
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = MainHolder(MaterialButton(parent.context))
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {

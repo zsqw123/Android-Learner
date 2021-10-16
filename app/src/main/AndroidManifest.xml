@@ -42,6 +42,7 @@
         <activity android:name=".other.test.TestActivity" />
         <activity android:name=".other.permission.storage.StorageAct" />
         <activity android:name=".other.network.NetActivity" />
+        <activity android:name=".other.intercept.InterceptActivity" />
 
         <service android:name=".MainService" />
     </application>

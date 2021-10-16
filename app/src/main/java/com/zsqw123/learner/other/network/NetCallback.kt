@@ -22,38 +22,38 @@ import androidx.lifecycle.LifecycleOwner
  * Date 2021/7/12 11:12
  */
 class NetCallback private constructor() : ConnectivityManager.NetworkCallback() {
-    private val netStates = BooleanArray(4)
     private fun onChange() {
-        Handler(Looper.getMainLooper()).post { events.forEach { _, v -> v(netStates) } }
+        Handler(Looper.getMainLooper()).post { events.forEach { _, v -> v(currentNetState) } }
     }
 
     override fun onAvailable(network: Network) {
-        netStates[NetType.NET_AVAILABLE] = true
+        currentNetState[NetType.NET_AVAILABLE] = true
     }
 
     override fun onLost(network: Network) {
-        netStates[NetType.NET_CONNECTED] = false
-        netStates[NetType.NET_WIFI] = false
-        netStates[NetType.NET_CELLULAR] = false
+        currentNetState[NetType.NET_CONNECTED] = false
+        currentNetState[NetType.NET_WIFI] = false
+        currentNetState[NetType.NET_CELLULAR] = false
         onChange()
     }
 
     override fun onUnavailable() {
-        netStates[NetType.NET_AVAILABLE] = false
-        netStates[NetType.NET_CONNECTED] = false
-        netStates[NetType.NET_WIFI] = false
-        netStates[NetType.NET_CELLULAR] = false
+        currentNetState[NetType.NET_AVAILABLE] = false
+        currentNetState[NetType.NET_CONNECTED] = false
+        currentNetState[NetType.NET_WIFI] = false
+        currentNetState[NetType.NET_CELLULAR] = false
         onChange()
     }
 
     override fun onCapabilitiesChanged(network: Network, networkCapabilities: NetworkCapabilities) {
-        netStates[NetType.NET_CONNECTED] = networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-        netStates[NetType.NET_WIFI] = networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
-        netStates[NetType.NET_CELLULAR] = networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
+        currentNetState[NetType.NET_CONNECTED] = networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+        currentNetState[NetType.NET_WIFI] = networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
+        currentNetState[NetType.NET_CELLULAR] = networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
         onChange()
     }
 
     companion object {
+        val currentNetState = BooleanArray(4)
         private val events = SparseArray<(BooleanArray) -> Unit>()
         private var count = 0
         private val netRequest by lazy { NetworkRequest.Builder().build() }
@@ -75,8 +75,8 @@ class NetCallback private constructor() : ConnectivityManager.NetworkCallback() 
 @Retention(AnnotationRetention.SOURCE)
 annotation class NetType {
     companion object {
-        const val NET_AVAILABLE = 0
-        const val NET_CONNECTED = 1
+        const val NET_AVAILABLE = 0 // 连接可用
+        const val NET_CONNECTED = 1 // 连接到了 Internet
         const val NET_WIFI = 2
         const val NET_CELLULAR = 3
     }
@@ -87,8 +87,8 @@ annotation class NetType {
  * @receiver LifecycleOwner
  */
 fun LifecycleOwner.bindNetworkCallback(callback: (BooleanArray) -> Unit) {
+    var callbackIndex = NetCallback.regist(callback)
     lifecycle.addObserver(object : LifecycleEventObserver {
-        var callbackIndex = 0
         override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
             when (event) {
                 Lifecycle.Event.ON_START -> callbackIndex = NetCallback.regist(callback)

@@ -1,14 +1,13 @@
 package com.zsqw123.learner
 
+import android.app.Notification
 import android.app.Service
 import android.content.ComponentName
-import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.os.Binder
 import android.os.Bundle
 import android.os.IBinder
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.zsqw123.learner.databinding.LayoutServiceBinding
 
@@ -16,6 +15,7 @@ class MainService : Service() {
     private fun toastOnService() = toast("awa")
     inner class MyBinder : Binder() {
         fun callServiceMethod() = toastOnService()
+        fun fore() = startForeground(1, Notification())
     }
 
     override fun onBind(intent: Intent): IBinder = MyBinder()
@@ -38,6 +38,7 @@ class ServiceActivity : AppCompatActivity() {
                 binding.btCall.setOnClickListener {
                     if (isConnected)
                         service.callServiceMethod()
+                    service.fore()
                 }
             }
         }
